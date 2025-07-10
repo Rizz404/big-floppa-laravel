@@ -1,7 +1,7 @@
 @props(['title' => ''])
 
 
-<x-app title="{{ $title }}">
+<x-app-layout title="{{ $title }}">
     <x-partials.header />
 
     <div class="fixed top-0 left-0 z-50 w-full pointer-events-none p-4">
@@ -21,4 +21,4 @@
     </div>
 
     {{ $slot }}
-</x-app>
+</x-app-layout>

@@ -1,11 +1,201 @@
-@import 'tailwindcss';
+@import "tailwindcss";
+@import "@fortawesome/fontawesome-free/css/all.css";
 
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
 @source '../../storage/framework/views/*.php';
 @source '../**/*.blade.php';
 @source '../**/*.js';
 
-@theme {
-    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
-        'Segoe UI Symbol', 'Noto Color Emoji';
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+    --color-primary: var(--primary);
+    --color-primary-hover: var(--primary-hover);
+    --color-primary-active: var(--primary-active);
+    --color-primary-focus: var(--primary-focus);
+    --color-primary-disabled: var(--primary-disabled);
+
+    --color-secondary: var(--secondary);
+    --color-secondary-hover: var(--secondary-hover);
+    --color-secondary-active: var(--secondary-active);
+    --color-secondary-focus: var(--secondary-focus);
+    --color-secondary-disabled: var(--secondary-disabled);
+
+    --color-accent: var(--accent);
+    --color-accent-hover: var(--accent-hover);
+    --color-accent-active: var(--accent-active);
+    --color-accent-focus: var(--accent-focus);
+    --color-accent-disabled: var(--accent-disabled);
+
+    --color-text-primary: var(--text-primary);
+    --color-text-secondary: var(--text-secondary);
+    --color-text-tertiary: var(--text-tertiary);
+    --color-text-muted: var(--text-muted);
+    --color-text-inverted: var(--text-inverted);
+
+    --color-bg-main: var(--bg-main);
+    --color-bg-alt: var(--bg-alt);
+    --color-bg-muted: var(--bg-muted);
+    --color-bg-element: var(--bg-element);
+    --color-bg-hover: var(--bg-hover);
+    --color-bg-active: var(--bg-active);
+
+    --font-heading: var(--heading-font);
+    --font-body: var(--body-font);
+}
+
+:root {
+    --primary: #1e40af;
+    --primary-hover: #1d4ed8;
+    --primary-active: #1e3a8a;
+    --primary-focus: #3b82f6;
+    --primary-disabled: #93c5fd;
+
+    --secondary: #475569;
+    --secondary-hover: #334155;
+    --secondary-active: #1e293b;
+    --secondary-focus: #64748b;
+    --secondary-disabled: #94a3b8;
+
+    --accent: #dc2626;
+    --accent-hover: #ef4444;
+    --accent-active: #b91c1c;
+    --accent-focus: #f87171;
+    --accent-disabled: #fca5a5;
+
+    --text-primary: #0f172a;
+    --text-secondary: #334155;
+    --text-tertiary: #64748b;
+    --text-muted: #94a3b8;
+    --text-inverted: #ffffff;
+
+    --bg-main: #ffffff;
+    --bg-alt: #f8fafc;
+    --bg-muted: #f1f5f9;
+    --bg-element: #ffffff;
+    --bg-hover: #f8fafc;
+    --bg-active: #f1f5f9;
+
+    --heading-font: "Playfair Display", system-ui, sans-serif;
+    --body-font: "Inter", system-ui, sans-serif;
+}
+
+.dark {
+    --primary: #3b82f6;
+    --primary-hover: #2563eb;
+    --primary-active: #1d4ed8;
+    --primary-focus: #60a5fa;
+    --primary-disabled: #1e40af;
+
+    --secondary: #64748b;
+    --secondary-hover: #475569;
+    --secondary-active: #334155;
+    --secondary-focus: #94a3b8;
+    --secondary-disabled: #475569;
+
+    --accent: #ef4444;
+    --accent-hover: #dc2626;
+    --accent-active: #b91c1c;
+    --accent-focus: #f87171;
+    --accent-disabled: #dc2626;
+
+    --text-primary: #f8fafc;
+    --text-secondary: #e2e8f0;
+    --text-tertiary: #cbd5e1;
+    --text-muted: #94a3b8;
+    --text-inverted: #0f172a;
+
+    --bg-main: #0f172a;
+    --bg-alt: #1e293b;
+    --bg-muted: #334155;
+    --bg-element: #1e293b;
+    --bg-hover: #334155;
+    --bg-active: #475569;
+}
+
+@layer base {
+    * {
+        @apply font-body text-text-primary transition-colors duration-200;
+    }
+
+    body {
+        @apply bg-bg-main min-h-screen;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+        @apply font-heading font-semibold;
+    }
+
+    h1 {
+        @apply text-4xl mb-6 text-text-primary;
+    }
+
+    h2 {
+        @apply text-3xl mb-5;
+    }
+
+    h3 {
+        @apply text-2xl mb-4;
+    }
+
+    h4 {
+        @apply text-xl mb-3;
+    }
+
+    a {
+        @apply text-primary hover:text-primary-hover;
+    }
+
+    p {
+        @apply mb-4;
+    }
+
+    button {
+        @apply font-heading font-medium;
+    }
+}
+
+@layer components {
+    .btn {
+        @apply px-4 py-2 rounded font-medium transition-all duration-200;
+    }
+
+    .btn-primary {
+        @apply bg-primary text-text-inverted hover:bg-primary-hover active:bg-primary-active focus:ring-2 focus:ring-primary-focus focus:outline-none disabled:bg-primary-disabled;
+    }
+
+    .btn-secondary {
+        @apply bg-secondary text-text-inverted hover:bg-secondary-hover active:bg-secondary-active focus:ring-2 focus:ring-secondary-focus focus:outline-none disabled:bg-secondary-disabled;
+    }
+
+    .btn-accent {
+        @apply bg-accent text-text-inverted hover:bg-accent-hover active:bg-accent-active focus:ring-2 focus:ring-accent-focus focus:outline-none disabled:bg-accent-disabled;
+    }
+
+    .card {
+        @apply bg-bg-element rounded-xl p-6 shadow-md border border-bg-muted;
+    }
+}
+
+@layer utilities {
+    .container {
+        @apply mx-auto px-4 max-w-7xl;
+    }
+
+    .news-gradient {
+        @apply bg-gradient-to-r from-primary to-secondary;
+    }
+
+    .news-text-gradient {
+        @apply bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent;
+    }
+
+    .news-border {
+        @apply border-2 border-primary;
+    }
 }

@@ -90,10 +90,6 @@
     scroll-behavior: smooth;
   }
 
-  .container-custom {
-    @apply w-full max-w-5xl mx-auto px-4;
-  }
-
   .focus-ring {
     outline: 2px solid var(--color-primary-500);
     outline-offset: 2px;
@@ -468,6 +464,37 @@
   textarea:focus-visible,
   select:focus-visible {
     @apply outline-2 outline-offset-2 outline-primary-500;
+  }
+
+  /* === SLIDER STYLES === */
+  input[type=range] {
+    @apply h-2 bg-neutral-200 rounded-lg appearance-none cursor-pointer;
+    /* Memberi track warna gradien sesuai tema */
+    background-image: linear-gradient(to right, var(--color-primary-500), var(--color-primary-500));
+    background-repeat: no-repeat;
+  }
+
+  input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    background: white;
+    /* Menggunakan warna tema untuk border */
+    border: 2px solid var(--color-primary-500);
+    border-radius: 9999px;
+    cursor: pointer;
+    margin-top: -8px;
+    /* Menengahkan thumb pada track */
+  }
+
+  input[type=range]::-moz-range-thumb {
+    width: 20px;
+    height: 20px;
+    background: white;
+    border: 2px solid var(--color-primary-500);
+    border-radius: 9999px;
+    cursor: pointer;
   }
 
   /* === SELECTION === */

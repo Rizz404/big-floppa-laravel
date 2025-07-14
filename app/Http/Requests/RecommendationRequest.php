@@ -28,27 +28,15 @@ class RecommendationRequest extends FormRequest
         ];
     }
 
-    public function after(): array
-    {
-        return [
-            function (Validator $validator) {
-                // * Cek jika validasi dasar sudah gagal, tidak perlu lanjut.
-                if ($validator->errors()->isNotEmpty()) {
-                    return;
-                }
-
-                // * Ambil data 'weights' yang sudah divalidasi
-                $weights = $this->validated('weights');
-
-                // * Lakukan validasi kustom untuk total bobot
-                if (array_sum($weights) != 100) {
-                    // * Jika gagal, tambahkan pesan error
-                    $validator->errors()->add(
-                        'total',
-                        'Total must be 100'
-                    );
-                }
-            }
-        ];
-    }
+    // public function after(): array
+    // {
+    //     return [
+    //         function (Validator $validator) {
+    //             // * Cek jika validasi dasar sudah gagal, tidak perlu lanjut.
+    //             if ($validator->errors()->isNotEmpty()) {
+    //                 return;
+    //             }
+    //         }
+    //     ];
+    // }
 }

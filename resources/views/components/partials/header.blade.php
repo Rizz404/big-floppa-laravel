@@ -21,7 +21,7 @@
 
     {{-- Top Bar (Optional promotional bar) --}}
     <div class="bg-primary-500 text-white text-sm py-2 text-center" x-data="{ show: true }" x-show="show">
-        <div class="container-custom flex items-center justify-between">
+        <div class="container mx-auto flex items-center justify-between">
             <div class="flex-1 text-center">
                 <i class="fas fa-shipping-fast mr-2"></i>
                 Free shipping untuk pembelian di atas Rp 500.000

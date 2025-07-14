@@ -22,7 +22,6 @@ class RecommendationController extends Controller
             ->orderBy('rank', 'asc')
             ->get();
 
-        // Passing data rankings ke view
         return view('pages.user.recommendation.index')
             ->with('rankings', $rankings);
     }
@@ -35,24 +34,38 @@ class RecommendationController extends Controller
             ->with('criteria', $criteria);
     }
 
+
     public function store(RecommendationRequest $request, TopsisService $topsisService)
     {
-        // ! gak perlu lagi
-        // $validated = $request->validated();
-
         $validatedWeights = $request->validated('weights');
+
+        // 1. Hitung total dari semua bobot yang diberikan pengguna (skala 1-10)
+        $totalWeight = array_sum($validatedWeights);
+
+        // Mencegah pembagian dengan nol jika semua slider diset ke 0 (walaupun min=1)
+        if ($totalWeight === 0) {
+            // Jika total 0, anggap semua kriteria sama penting
+            $count = count($validatedWeights);
+            $normalizedWeights = array_fill_keys(array_keys($validatedWeights), 1 / $count);
+        } else {
+            // 2. Normalisasi setiap bobot
+            $normalizedWeights = [];
+            foreach ($validatedWeights as $criterionId => $weight) {
+                $normalizedWeights[$criterionId] = $weight / $totalWeight;
+            }
+        }
 
         $session = $this->getSession($request);
 
-        // * Simpan ke db
-        foreach ($validatedWeights as $criterionId => $weight) {
+        // 3. Simpan bobot yang sudah dinormalisasi ke database
+        foreach ($normalizedWeights as $criterionId => $weight) {
             SessionCriteriaWeight::updateOrCreate(
                 ['session_id' => $session->id, 'criterion_id' => $criterionId],
-                ['weight' => $weight / 100]
+                ['weight' => $weight] // Bobot sudah ternormalisasi (misal: 0.25)
             );
         }
 
-        // * Gak perlu new lagi soalnya udah pake provider
+        // TopsisService akan bekerja dengan bobot yang sudah benar
         $topsisService->calculate($session);
 
         $redirect = redirect()->route('recommendations.index', $session);

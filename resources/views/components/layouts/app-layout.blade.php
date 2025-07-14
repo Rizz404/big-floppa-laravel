@@ -16,11 +16,14 @@
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
+    @stack('styles')
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.8/dist/cdn.min.js"></script>
 </head>
 
 <body class="min-h-screen overflow-y-scroll">
     {{ $slot }}
+
+    @stack('scripts')
     <script src="https://cdn.tiny.cloud/1/k6ku73yji6yg6uj9uf34s52ziusmyequhc5pb92bv8pbow9n/tinymce/7/tinymce.min.js"
         referrerpolicy="origin"></script>
 </body>

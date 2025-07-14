@@ -17,7 +17,9 @@ class CriterionFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'name' => fake()->unique()->words(2, true), // Placeholder
+            'type' => fake()->randomElement(['benefit', 'cost']),
+            'description' => fake()->sentence(),
         ];
     }
 }

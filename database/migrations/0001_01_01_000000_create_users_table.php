@@ -13,10 +13,10 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->ulid('id')->primary();
-            $table->string('username');
+            $table->string('name');
             $table->string('email')->unique();
             $table->string('password');
-            $table->enum("role", ["user", "seller", 'customer'])->default("customer");
+            $table->enum("role", ["admin", "seller", 'customer'])->default("customer");
             $table->string("profile_picture_url")->default("https://i.pinimg.com/736x/c6/ee/a1/c6eea122496fbe5aadc69231fddd5e2e.jpg");
             $table->timestamp('email_verified_at')->nullable();
             $table->rememberToken();
@@ -31,11 +31,15 @@ return new class extends Migration
 
         Schema::create('sessions', function (Blueprint $table) {
             $table->string('id')->primary();
-            $table->foreignId('user_id')->nullable()->index();
+            // Gunakan string dengan panjang yang cukup untuk ULID
+            $table->string('user_id', 36)->nullable()->index();
             $table->string('ip_address', 45)->nullable();
             $table->text('user_agent')->nullable();
             $table->longText('payload');
             $table->integer('last_activity')->index();
+
+            // Tambahkan foreign key constraint secara manual
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 

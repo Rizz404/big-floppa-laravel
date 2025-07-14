@@ -9,13 +9,23 @@ use Illuminate\View\Component;
 class AppLayout extends Component
 {
     public $title;
+    public $description;
+    public $keywords;
+    public $ogImage;
 
     /**
      * Create a new component instance.
      */
-    public function __construct(string $title = "")
-    {
+    public function __construct(
+        string $title = "",
+        string $description = "",
+        string $keywords = "",
+        string $ogImage = ""
+    ) {
         $this->title = $title;
+        $this->description = $description ?: config('app.description', 'Cat Shop - Your trusted pet store');
+        $this->keywords = $keywords ?: config('app.keywords', 'cat, pet, shop, food, toys');
+        $this->ogImage = $ogImage ?: asset('images/og-default.jpg');
     }
 
     /**

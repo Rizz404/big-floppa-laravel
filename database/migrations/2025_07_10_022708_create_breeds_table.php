@@ -14,7 +14,6 @@ return new class extends Migration
         Schema::create('breeds', function (Blueprint $table) {
             $table->ulid("id")->primary();
             $table->string('name', 100)->unique();
-            $table->string('slug')->unique();
             $table->string('origin_country', 100)->nullable();
             $table->text('description')->nullable();
             $table->string('photo_url')->nullable();

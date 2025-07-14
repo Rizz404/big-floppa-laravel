@@ -7,8 +7,8 @@
 @source '../**/*.js';
 
 /* =================================
-   CAT SHOP THEME CONFIGURATION
-   ================================= */
+   CAT SHOP THEME CONFIGURATION
+   ================================= */
 @theme {
   /* === PRIMARY (Orange - Brand utama) === */
   --color-primary-100: oklch(0.95 0.05 42);
@@ -77,8 +77,8 @@
 }
 
 /* =================================
-   CUSTOM UTILITIES
-   ================================= */
+   CUSTOM UTILITIES
+   ================================= */
 @layer utilities {
   .text-rendering-optimized {
     text-rendering: optimizeLegibility;
@@ -91,10 +91,7 @@
   }
 
   .container-custom {
-    width: 100%;
-    max-width: 1200px;
-    margin-inline: auto;
-    padding-inline: var(--spacing-md);
+    @apply w-full max-w-5xl mx-auto px-4;
   }
 
   .focus-ring {
@@ -121,16 +118,78 @@
     font: inherit;
     cursor: pointer;
   }
+
+  /* === ANIMATION UTILITIES === */
+  .animate-fade-in {
+    animation: fadeIn 0.3s ease-in-out;
+  }
+
+  .animate-slide-up {
+    animation: slideUp 0.3s ease-out;
+  }
+
+  .animate-bounce-subtle {
+    animation: bounceSubtle 0.6s ease-in-out;
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+
+    to {
+      opacity: 1;
+    }
+  }
+
+  @keyframes slideUp {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes bounceSubtle {
+
+    0%,
+    20%,
+    50%,
+    80%,
+    100% {
+      transform: translateY(0);
+    }
+
+    40% {
+      transform: translateY(-3px);
+    }
+
+    60% {
+      transform: translateY(-2px);
+    }
+  }
 }
 
 /* =================================
-   COMPONENT CLASSES
-   ================================= */
+   COMPONENT CLASSES
+   ================================= */
 @layer components {
 
   /* === BUTTONS === */
   .btn {
     @apply inline-flex items-center justify-center px-4 py-2 rounded-md font-medium transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+
+  .btn-sm {
+    @apply px-3 py-1.5 text-sm;
+  }
+
+  .btn-lg {
+    @apply px-6 py-3 text-lg;
   }
 
   .btn-primary {
@@ -157,30 +216,67 @@
     @apply bg-danger-500 text-white hover:bg-danger-600 focus:ring-danger-500;
   }
 
+  .btn-ghost {
+    @apply bg-transparent text-neutral-600 hover:bg-neutral-100 focus:ring-neutral-500 active:bg-neutral-200;
+  }
+
   /* === CARDS === */
   .card {
-    @apply bg-white rounded-lg shadow-md overflow-hidden;
+    @apply bg-white rounded-lg shadow-md overflow-hidden transition-shadow duration-200 hover:shadow-lg;
   }
 
   .card-header {
-    @apply px-6 py-4 border-b border-neutral-200;
+    @apply px-6 py-4 border-b border-neutral-200 bg-neutral-50;
   }
 
   .card-body {
     @apply px-6 py-4;
   }
 
+  .card-footer {
+    @apply px-6 py-4 border-t border-neutral-200 bg-neutral-50;
+  }
+
   /* === FORMS === */
+  .form-group {
+    @apply mb-4;
+  }
+
   .form-input {
-    @apply block w-full px-3 py-2 border border-neutral-300 rounded-md shadow-sm placeholder-neutral-500 focus:outline-none focus:ring-primary-500 focus:border-primary-500;
+    @apply block w-full px-3 py-2 border border-neutral-300 rounded-md shadow-sm placeholder-neutral-500 focus:outline-none focus:ring-primary-500 focus:border-primary-500 transition-colors duration-200;
+  }
+
+  .form-input-error {
+    @apply border-danger-500 focus:ring-danger-500 focus:border-danger-500;
   }
 
   .form-label {
     @apply block text-sm font-medium text-neutral-800 mb-1;
   }
 
+  .form-label-required::after {
+    content: " *";
+    @apply text-danger-500;
+  }
+
   .form-error {
     @apply text-sm text-danger-500 mt-1;
+  }
+
+  .form-help {
+    @apply text-sm text-neutral-500 mt-1;
+  }
+
+  .form-select {
+    @apply block w-full px-3 py-2 border border-neutral-300 rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500 bg-white;
+  }
+
+  .form-checkbox {
+    @apply h-4 w-4 text-primary-600 focus:ring-primary-500 border-neutral-300 rounded;
+  }
+
+  .form-radio {
+    @apply h-4 w-4 text-primary-600 focus:ring-primary-500 border-neutral-300;
   }
 
   /* === BADGES === */
@@ -190,6 +286,10 @@
 
   .badge-primary {
     @apply bg-primary-100 text-primary-600;
+  }
+
+  .badge-secondary {
+    @apply bg-secondary-100 text-secondary-600;
   }
 
   .badge-success {
@@ -204,9 +304,13 @@
     @apply bg-danger-100 text-danger-600;
   }
 
+  .badge-neutral {
+    @apply bg-neutral-100 text-neutral-600;
+  }
+
   /* === ALERTS === */
   .alert {
-    @apply p-4 rounded-md border-l-4;
+    @apply p-4 rounded-md border-l-4 relative;
   }
 
   .alert-success {
@@ -220,12 +324,96 @@
   .alert-danger {
     @apply bg-danger-100 border-danger-500 text-danger-600;
   }
+
+  .alert-info {
+    @apply bg-secondary-100 border-secondary-500 text-secondary-700;
+  }
+
+  .alert-dismissible {
+    @apply pr-12;
+  }
+
+  .alert-dismiss {
+    @apply absolute top-4 right-4 text-current opacity-50 hover:opacity-100 cursor-pointer;
+  }
+
+  /* === TABLES === */
+  .table {
+    @apply w-full divide-y divide-neutral-200;
+  }
+
+  .table-header {
+    @apply bg-neutral-50;
+  }
+
+  .table-header-cell {
+    @apply px-6 py-3 text-left text-xs font-medium text-neutral-500 uppercase tracking-wider;
+  }
+
+  .table-body {
+    @apply bg-white divide-y divide-neutral-200;
+  }
+
+  .table-row {
+    @apply hover:bg-neutral-50 transition-colors duration-150;
+  }
+
+  .table-cell {
+    @apply px-6 py-4 whitespace-nowrap text-sm text-neutral-900;
+  }
+
+  /* === NAVIGATION === */
+  .nav-link {
+    @apply text-neutral-600 hover:text-primary-600 transition-colors duration-200 font-medium;
+  }
+
+  .nav-link-active {
+    @apply text-primary-600 border-b-2 border-primary-600;
+  }
+
+  /* === LOADING === */
+  .loading-spinner {
+    @apply inline-block w-4 h-4 border-2 border-current border-t-transparent rounded-full animate-spin;
+  }
+
+  .loading-dots::after {
+    content: '';
+    @apply inline-block w-1 h-1 bg-current rounded-full animate-pulse;
+    animation: loadingDots 1.4s infinite both;
+  }
+
+  @keyframes loadingDots {
+
+    0%,
+    80%,
+    100% {
+      opacity: 0;
+    }
+
+    40% {
+      opacity: 1;
+    }
+  }
 }
 
 /* =================================
-   BASE STYLES
-   ================================= */
+   BASE STYLES
+   ================================= */
 @layer base {
+  * {
+    box-sizing: border-box;
+  }
+
+  html {
+    @apply scroll-smooth;
+  }
+
+  body {
+    @apply font-body text-neutral-600 bg-white;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
 
   /* === TYPOGRAPHY === */
   h1,
@@ -234,7 +422,7 @@
   h4,
   h5,
   h6 {
-    @apply font-display font-semibold text-neutral-900;
+    @apply font-display font-semibold text-neutral-900 leading-tight;
   }
 
   h1 {
@@ -261,19 +449,17 @@
     @apply text-sm md:text-base;
   }
 
-  p,
-  span,
-  div {
-    @apply font-body;
-  }
-
-  body {
-    @apply font-body text-neutral-600 text-rendering-optimized;
+  p {
+    @apply leading-relaxed;
   }
 
   /* === LINKS === */
   a {
     @apply text-primary-600 hover:text-primary-700 transition-colors duration-200;
+  }
+
+  a:focus {
+    @apply outline-2 outline-offset-2 outline-primary-500;
   }
 
   /* === FOCUS STATES === */
@@ -283,12 +469,35 @@
   select:focus-visible {
     @apply outline-2 outline-offset-2 outline-primary-500;
   }
+
+  /* === SELECTION === */
+  ::selection {
+    @apply bg-primary-100 text-primary-700;
+  }
+
+  /* === SCROLLBAR === */
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-neutral-100;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-neutral-300 rounded-full;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-neutral-400;
+  }
 }
 
 /* =================================
-   DARK MODE
-   ================================= */
-@media (prefers-color-scheme: dark) {
+   DARK MODE
+   ================================= */
+/* @media (prefers-color-scheme: dark) {
   body {
     @apply bg-neutral-900 text-neutral-100;
   }
@@ -310,6 +519,10 @@
     @apply bg-neutral-700 border-neutral-600;
   }
 
+  .card-footer {
+    @apply bg-neutral-700 border-neutral-600;
+  }
+
   .form-input {
     @apply bg-neutral-800 border-neutral-600 text-white placeholder-neutral-400;
   }
@@ -318,14 +531,71 @@
     @apply text-neutral-200;
   }
 
+  .form-select {
+    @apply bg-neutral-800 border-neutral-600 text-white;
+  }
+
+  .table-header {
+    @apply bg-neutral-800;
+  }
+
+  .table-body {
+    @apply bg-neutral-900;
+  }
+
+  .table-row {
+    @apply hover:bg-neutral-800;
+  }
+
+  .table-cell {
+    @apply text-neutral-100;
+  }
+
+  .table-header-cell {
+    @apply text-neutral-300;
+  }
+
   a {
-    @apply text-primary-400 hover:text-primary-300;
+    @apply text-primary-500 hover:text-primary-600;
+  }
+
+  ::selection {
+    @apply bg-primary-700 text-primary-100;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-neutral-800;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-neutral-600;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-neutral-500;
+  }
+} */
+
+/* =================================
+   RESPONSIVE UTILITIES
+   ================================= */
+@layer utilities {
+  .container-fluid {
+    @apply w-full px-4 sm:px-6 lg:px-8;
+  }
+
+  .container-narrow {
+    @apply w-full max-w-4xl mx-auto px-4 sm:px-6 lg:px-8;
+  }
+
+  .container-wide {
+    @apply w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
   }
 }
 
 /* =================================
-   PRINT STYLES
-   ================================= */
+   PRINT STYLES
+   ================================= */
 @media print {
   * {
     background: transparent !important;
@@ -367,8 +637,8 @@
 }
 
 /* =================================
-   ACCESSIBILITY
-   ================================= */
+   ACCESSIBILITY
+   ================================= */
 @media (prefers-reduced-motion: reduce) {
 
   *,
@@ -390,4 +660,24 @@
   clip: rect(0, 0, 0, 0);
   white-space: nowrap;
   border: 0;
+}
+
+/* === FOCUS VISIBLE POLYFILL === */
+.focus-visible {
+  @apply outline-2 outline-offset-2 outline-primary-500;
+}
+
+/* === HIGH CONTRAST MODE === */
+@media (prefers-contrast: high) {
+  .btn {
+    @apply border-2 border-solid;
+  }
+
+  .card {
+    @apply border-2 border-neutral-800;
+  }
+
+  .form-input {
+    @apply border-2 border-neutral-800;
+  }
 }

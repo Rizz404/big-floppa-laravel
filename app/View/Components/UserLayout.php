@@ -9,13 +9,32 @@ use Illuminate\View\Component;
 class UserLayout extends Component
 {
     public $title;
+    public $description;
+    public $keywords;
+    public $ogImage;
+    public $showHeader;
+    public $showFooter;
+    public $containerClass;
 
     /**
      * Create a new component instance.
      */
-    public function __construct(string $title = "")
-    {
+    public function __construct(
+        string $title = "",
+        string $description = "",
+        string $keywords = "",
+        string $ogImage = "",
+        bool $showHeader = true,
+        bool $showFooter = true,
+        string $containerClass = ""
+    ) {
         $this->title = $title;
+        $this->description = $description;
+        $this->keywords = $keywords;
+        $this->ogImage = $ogImage;
+        $this->showHeader = $showHeader;
+        $this->showFooter = $showFooter;
+        $this->containerClass = $containerClass;
     }
 
     /**

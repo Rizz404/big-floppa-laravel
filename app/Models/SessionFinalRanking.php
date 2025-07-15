@@ -12,7 +12,7 @@ class SessionFinalRanking extends Model
     use HasFactory, HasUlids;
 
     protected $fillable = [
-        'session_id',
+        'evaluation_session_id',
         'breed_id',
         'final_score',
         'rank',

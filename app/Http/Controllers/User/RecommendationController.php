@@ -17,7 +17,7 @@ class RecommendationController extends Controller
 {
     public function index(EvaluationSession $session)
     {
-        $rankings = SessionFinalRanking::where('session_id', $session->id)
+        $rankings = SessionFinalRanking::where('evaluation_session_id', $session->id)
             ->with('breed')
             ->orderBy('rank', 'asc')
             ->get();
@@ -60,7 +60,7 @@ class RecommendationController extends Controller
         // 3. Simpan bobot yang sudah dinormalisasi ke database
         foreach ($normalizedWeights as $criterionId => $weight) {
             SessionCriteriaWeight::updateOrCreate(
-                ['session_id' => $session->id, 'criterion_id' => $criterionId],
+                ['evaluation_session_id' => $session->id, 'criterion_id' => $criterionId],
                 ['weight' => $weight] // Bobot sudah ternormalisasi (misal: 0.25)
             );
         }

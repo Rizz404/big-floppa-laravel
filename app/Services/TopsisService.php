@@ -130,7 +130,7 @@ class TopsisService
     $rank = 1;
     foreach ($finalScores as $breedId => $score) {
       SessionFinalRanking::updateOrCreate(
-        ['session_id' => $session->id, 'breed_id' => $breedId],
+        ['evaluation_session_id' => $session->id, 'breed_id' => $breedId],
         ['final_score' => $score, 'rank' => $rank++]
       );
     }

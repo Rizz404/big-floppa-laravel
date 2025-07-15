@@ -127,7 +127,7 @@
                         <i class="fas fa-heart text-lg"></i>
                         <span
                             class="absolute -top-2 -right-2 bg-danger-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
-                            {{ auth()->user()->wishlist()->count() }}
+                            {{-- {{ auth()->user()->wishlist()->count() }} --}} 0
                         </span>
                     </a>
                 @endauth

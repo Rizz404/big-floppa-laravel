@@ -10,4 +10,14 @@ class OrderItem extends Model
 {
     /** @use HasFactory<\Database\Factories\OrderItemFactory> */
     use HasFactory, HasUlids;
+
+    public function order()
+    {
+        return $this->belongsTo(Order::class);
+    }
+
+    public function listing()
+    {
+        return $this->belongsTo(Listing::class);
+    }
 }

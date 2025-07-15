@@ -10,4 +10,14 @@ class Favorite extends Model
 {
     /** @use HasFactory<\Database\Factories\FavoriteFactory> */
     use HasFactory, HasUlids;
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function listing()
+    {
+        return $this->belongsTo(Listing::class);
+    }
 }

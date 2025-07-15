@@ -15,4 +15,13 @@ class Criterion extends Model
         'type',
         'description'
     ];
+
+    public function breedScores()
+    {
+        return $this->hasMany(BreedScore::class);
+    }
+    public function sessionCriteriaWeights()
+    {
+        return $this->hasMany(SessionCriteriaWeight::class);
+    }
 }

@@ -24,4 +24,20 @@ class Listing extends Model
     {
         return 'slug';
     }
+
+    // * Relasi
+    public function seller()
+    {
+        return $this->belongsTo(User::class, 'seller_id');
+    }
+
+    public function breed()
+    {
+        return $this->belongsTo(Breed::class, 'breeds_id');
+    }
+
+    public function photos()
+    {
+        return $this->hasMany(ListingPhoto::class);
+    }
 }

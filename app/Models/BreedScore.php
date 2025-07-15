@@ -15,4 +15,14 @@ class BreedScore extends Model
         'criterion_id',
         'score'
     ];
+
+    public function breed()
+    {
+        return $this->belongsTo(BreedScore::class);
+    }
+
+    public function criterion()
+    {
+        return $this->belongsTo(Criterion::class);
+    }
 }

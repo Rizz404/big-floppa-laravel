@@ -2,7 +2,7 @@
     description="Welcome to Catopia, the best place to find and adopt your new furry friend. We have a wide variety of breeds and lovely cats waiting for a home."
     containerClass="bg-neutral-100">
 
-    {{-- Hero Section --}}
+    {{-- * Hero Section --}}
     <section class="relative text-center py-20 sm:py-24 md:py-32 gradient-hero text-neutral-800">
         <div class="container-narrow">
             <h1 class="text-4xl md:text-6xl font-extrabold text-neutral-900 !font-display tracking-tight">
@@ -22,7 +22,7 @@
         </div>
     </section>
 
-    {{-- Features Section --}}
+    {{-- * Features Section --}}
     <section class="py-16 sm:py-20 bg-white">
         <div class="container-wide">
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
@@ -55,7 +55,7 @@
     </section>
 
 
-    {{-- Popular Breeds Section --}}
+    {{-- * Popular Breeds Section --}}
     <section class="py-16 sm:py-20 bg-neutral-100">
         <div class="container-wide">
             <div class="text-center mb-12">
@@ -64,47 +64,22 @@
                     feature.</p>
             </div>
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-                <a href="#" class="block group">
-                    <div class="card overflow-hidden">
-                        <img class="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
-                            src="https://placekitten.com/400/300" alt="Maine Coon">
-                        <div class="card-body">
-                            <h4 class="font-bold text-lg text-neutral-800">Maine Coon</h4>
+                @foreach ($breeds as $breed)
+                    <a href="#" class="block group">
+                        <div class="card overflow-hidden">
+                            <img class="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
+                                src="{{ $breed->photo_url }}" alt="{{ $breed->name }}">
+                            <div class="card-body">
+                                <h4 class="font-bold text-lg text-neutral-800">{{ $breed->name }}</h4>
+                            </div>
                         </div>
-                    </div>
-                </a>
-                <a href="#" class="block group">
-                    <div class="card overflow-hidden">
-                        <img class="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
-                            src="https://placekitten.com/401/300" alt="Siamese">
-                        <div class="card-body">
-                            <h4 class="font-bold text-lg text-neutral-800">Siamese</h4>
-                        </div>
-                    </div>
-                </a>
-                <a href="#" class="block group">
-                    <div class="card overflow-hidden">
-                        <img class="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
-                            src="https://placekitten.com/402/300" alt="British Shorthair">
-                        <div class="card-body">
-                            <h4 class="font-bold text-lg text-neutral-800">British Shorthair</h4>
-                        </div>
-                    </div>
-                </a>
-                <a href="#" class="block group">
-                    <div class="card overflow-hidden">
-                        <img class="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
-                            src="https://placekitten.com/403/300" alt="Ragdoll">
-                        <div class="card-body">
-                            <h4 class="font-bold text-lg text-neutral-800">Ragdoll</h4>
-                        </div>
-                    </div>
-                </a>
+                    </a>
+                @endforeach
             </div>
         </div>
     </section>
 
-    {{-- Recommendation CTA Section --}}
+    {{-- * Recommendation CTA Section --}}
     <section class="py-16 sm:py-20 bg-primary-100">
         <div class="container-narrow text-center">
             <h2 class="text-3xl md:text-4xl font-bold text-neutral-900">Not Sure Which Cat to Choose?</h2>
@@ -120,7 +95,7 @@
         </div>
     </section>
 
-    {{-- Popular Cats Section --}}
+    {{-- * Popular Cats Section --}}
     <section class="py-16 sm:py-20 bg-white">
         <div class="container-wide">
             <div class="text-center mb-12">
@@ -159,8 +134,7 @@
                     </div>
                 </div>
                 <div class="card">
-                    <img class="w-full h-56 object-cover" src="https://placekitten.com/410/287"
-                        alt="Cat named Simba">
+                    <img class="w-full h-56 object-cover" src="https://placekitten.com/410/287" alt="Cat named Simba">
                     <div class="card-body">
                         <div class="flex justify-between items-center">
                             <h3 class="text-2xl font-bold text-neutral-900">Simba</h3>
@@ -177,7 +151,7 @@
         </div>
     </section>
 
-    {{-- Testimonials Section --}}
+    {{-- * Testimonials Section --}}
     <section class="py-16 sm:py-20 bg-neutral-100">
         <div class="container-wide">
             <div class="text-center mb-12">

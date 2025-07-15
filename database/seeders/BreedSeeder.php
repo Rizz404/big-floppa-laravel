@@ -10,16 +10,23 @@ class BreedSeeder extends Seeder
     public function run(): void
     {
         $breeds = [
-            ['name' => 'Persia', 'description' => 'Ras berbulu panjang yang tenang dan penyayang, butuh perawatan bulu intensif.'],
-            ['name' => 'Siam (Siamese)', 'description' => 'Sangat vokal, cerdas, dan sosial. Suka menjadi pusat perhatian.'],
-            ['name' => 'Maine Coon', 'description' => 'Dikenal sebagai "raksasa lembut", ramah, dan pintar. Berukuran besar.'],
-            ['name' => 'Ragdoll', 'description' => 'Sangat jinak dan santai, seringkali lemas seperti boneka saat diangkat.'],
-            ['name' => 'British Shorthair', 'description' => 'Tenang, mandiri, dan tidak terlalu menuntut. Cocok untuk apartemen.'],
-            ['name' => 'Domestik (Kampung)', 'description' => 'Sangat beragam, umumnya kuat, sehat, dan punya kemampuan berburu yang baik.'],
+            ['name' => 'Persian', 'description' => 'A calm and affectionate long-haired breed that requires intensive grooming.'],
+            ['name' => 'Siamese', 'description' => 'Very vocal, intelligent, and social. Loves to be the center of attention.'],
+            ['name' => 'Maine Coon', 'description' => 'Known as the "gentle giant," friendly, and smart. Large in size.'],
+            ['name' => 'Ragdoll', 'description' => 'Very docile and relaxed, often going limp like a doll when picked up.'],
+            ['name' => 'British Shorthair', 'description' => 'Calm, independent, and not too demanding. Suitable for apartment living.'],
+            ['name' => 'Domestic Shorthair', 'description' => 'Very diverse, generally strong, healthy, and possesses good hunting skills.'],
         ];
 
         foreach ($breeds as $breed) {
-            Breed::updateOrCreate(['name' => $breed['name']], $breed);
+            $width = 640;
+            $height = 480;
+
+            $data = array_merge($breed, [
+                'photo_url' => "https://picsum.photos/{$width}/{$height}?random=" . rand()
+            ]);
+
+            Breed::updateOrCreate(['name' => $breed['name']], $data);
         }
     }
 }

@@ -16,4 +16,9 @@ class SessionCriteriaWeight extends Model
         'criterion_id ',
         'weight'
     ];
+
+    public function criterion()
+    {
+        return $this->belongsTo(Criterion::class);
+    }
 }

@@ -10,4 +10,9 @@ class ListingPhoto extends Model
 {
     /** @use HasFactory<\Database\Factories\ListingPhotoFactory> */
     use HasFactory, HasUlids;
+
+    public function listing()
+    {
+        return $this->belongsTo(Listing::class);
+    }
 }

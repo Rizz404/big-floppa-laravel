@@ -10,4 +10,9 @@ class Payment extends Model
 {
     /** @use HasFactory<\Database\Factories\PaymentFactory> */
     use HasFactory, HasUlids;
+
+    public function order()
+    {
+        return $this->belongsTo(Order::class);
+    }
 }

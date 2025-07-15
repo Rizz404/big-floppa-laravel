@@ -17,4 +17,9 @@ class SessionFinalRanking extends Model
         'final_score',
         'rank',
     ];
+
+    public function breed()
+    {
+        return $this->belongsTo(Breed::class);
+    }
 }

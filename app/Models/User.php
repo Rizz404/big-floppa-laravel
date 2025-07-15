@@ -58,4 +58,50 @@ class User extends Authenticatable implements FilamentUser
         // return $this->email && $this->hasVerifiedEmail();
         return true;
     }
+
+    // * Relations
+    public function listings()
+    {
+        return $this->hasMany(Listing::class, 'seller_id');
+    }
+
+    public function orders()
+    {
+        return $this->hasMany(Order::class, 'buyer_id');
+    }
+
+    public function cart()
+    {
+        return $this->hasOne(Cart::class);
+    }
+
+    public function userProfile()
+    {
+        return $this->hasOne(UserProfile::class);
+    }
+
+    public function userAddress()
+    {
+        return $this->hasMany(UserAddress::class);
+    }
+
+    public function reviewsGiven()
+    {
+        return $this->hasMany(Review::class, 'reviewer_id');
+    }
+
+    public function reviewsReceived()
+    {
+        return $this->hasMany(Review::class, 'seller_id');
+    }
+
+    public function favorites()
+    {
+        return $this->belongsToMany(Listing::class, 'favorites', 'users_id', 'listing_id')->withTimestamps();
+    }
+
+    public function evaluationSessions()
+    {
+        return $this->hasMany(EvaluationSession::class);
+    }
 }

@@ -15,4 +15,9 @@ class EvaluationSession extends Model
         "user_id",
         "session_name",
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

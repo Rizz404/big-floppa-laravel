@@ -16,4 +16,19 @@ class Breed extends Model
         'description',
         'photo_url'
     ];
+
+    public function listings()
+    {
+        return $this->hasMany(Listing::class);
+    }
+
+    public function breedScores()
+    {
+        return $this->hasMany(BreedScore::class);
+    }
+
+    public function sessionFinalRankings()
+    {
+        return $this->hasMany(SessionFinalRanking::class);
+    }
 }

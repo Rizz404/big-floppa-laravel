@@ -10,4 +10,9 @@ class UserAddress extends Model
 {
     /** @use HasFactory<\Database\Factories\UserAddressFactory> */
     use HasFactory, HasUlids;
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

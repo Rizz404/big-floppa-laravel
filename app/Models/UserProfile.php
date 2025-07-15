@@ -10,4 +10,9 @@ class UserProfile extends Model
 {
     /** @use HasFactory<\Database\Factories\UserProfileFactory> */
     use HasFactory, HasUlids;
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

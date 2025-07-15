@@ -98,6 +98,8 @@ return [
             'options' => [
                 PDO::ATTR_PERSISTENT => false,
             ],
+            'timeout' => 60,
+            'connect_timeout' => 60,
         ],
 
         'sqlsrv' => [

@@ -15,7 +15,6 @@ return new class extends Migration
         Schema::create('orders', function (Blueprint $table) {
             $table->ulid('id')->primary();
             $table->foreignUlid('buyer_id')->constrained('users')->restrictOnDelete();
-            $table->foreignUlid('listing_id')->constrained('listings')->restrictOnDelete();
             $table->decimal('total_amount', 12, 2);
             $table->decimal('shipping_cost', 10, 2)->default(0);
             $table->enum('status', ['pending_payment', 'paid', 'shipping', 'completed', 'cancelled', 'refunded'])->default('pending_payment');

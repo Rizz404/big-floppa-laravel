@@ -2,24 +2,24 @@
 
 namespace App\Policies;
 
-use App\Models\ListingPhoto;
+use App\Models\OrderItem;
 use App\Models\User;
 use Illuminate\Auth\Access\Response;
 
-class ListingPhotoPolicy
+class OrderItemPolicy
 {
     /**
      * Determine whether the user can view any models.
      */
     public function viewAny(User $user): bool
     {
-        return true;
+        return false;
     }
 
     /**
      * Determine whether the user can view the model.
      */
-    public function view(User $user, ListingPhoto $listingPhoto): bool
+    public function view(User $user, OrderItem $orderItem): bool
     {
         return false;
     }
@@ -35,7 +35,7 @@ class ListingPhotoPolicy
     /**
      * Determine whether the user can update the model.
      */
-    public function update(User $user, ListingPhoto $listingPhoto): bool
+    public function update(User $user, OrderItem $orderItem): bool
     {
         return false;
     }
@@ -43,7 +43,7 @@ class ListingPhotoPolicy
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(User $user, ListingPhoto $listingPhoto): bool
+    public function delete(User $user, OrderItem $orderItem): bool
     {
         return false;
     }
@@ -51,7 +51,7 @@ class ListingPhotoPolicy
     /**
      * Determine whether the user can restore the model.
      */
-    public function restore(User $user, ListingPhoto $listingPhoto): bool
+    public function restore(User $user, OrderItem $orderItem): bool
     {
         return false;
     }
@@ -59,7 +59,7 @@ class ListingPhotoPolicy
     /**
      * Determine whether the user can permanently delete the model.
      */
-    public function forceDelete(User $user, ListingPhoto $listingPhoto): bool
+    public function forceDelete(User $user, OrderItem $orderItem): bool
     {
         return false;
     }

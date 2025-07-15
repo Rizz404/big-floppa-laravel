@@ -19,6 +19,7 @@ return new class extends Migration
             $table->foreignUlid('seller_id')->constrained('users')->cascadeOnDelete();
             $table->foreignIdFor(Breed::class)->constrained()->restrictOnDelete();
             $table->string('title', 255);
+            $table->string('slug')->unique();
             $table->text('description')->nullable();
             $table->date('birth_date');
             $table->enum('gender', ['male', 'female']);

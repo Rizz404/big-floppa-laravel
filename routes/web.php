@@ -11,7 +11,9 @@ Route::get('/about', [AboutController::class, "index"])->name('about');
 Route::get('/contact', [ContactController::class, "index"])->name('contact');
 
 Route::prefix("recommendations")->name('recommendations.')->group(function () {
-  Route::get("/", [RecommendationController::class, 'index'])->name("index");
   Route::get("/create", [RecommendationController::class, 'create'])->name("create");
   Route::post("/store", [RecommendationController::class, 'store'])->name("store");
+
+  // * Route dengan parameter dinamis diletakkan anak kontol
+  Route::get("/{session}", [RecommendationController::class, 'index'])->name("index");
 });

@@ -21,4 +21,9 @@ class SessionCriteriaWeight extends Model
     {
         return $this->belongsTo(Criterion::class);
     }
+
+    public function evaluationSession()
+    {
+        return $this->belongsTo(EvaluationSession::class);
+    }
 }

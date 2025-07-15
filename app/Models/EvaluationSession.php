@@ -20,4 +20,9 @@ class EvaluationSession extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function sessionCriteriaWeights()
+    {
+        return $this->hasMany(SessionCriteriaWeight::class);
+    }
 }

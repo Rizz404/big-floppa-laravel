@@ -10,12 +10,12 @@ use App\Models\SessionFinalRanking;
 class TopsisService
 {
 
-  public function calculate(EvaluationSession $session): void
+  public function calculate(EvaluationSession $evaluationSession): void
   {
     // * Ambil data yang dibutuhkan
-    $weights = $session->criteriaWeights->pluck('weight', 'criterion_id');
+    $weights = $evaluationSession->sessionCriteriaWeights()->pluck('weight', 'criterion_id');
     $criteria = Criterion::find($weights->keys());
-    $breeds = Breed::with('scores')->get();
+    $breeds = Breed::with('breedScores')->get();
 
     // * Buat matriks keputusan dari data yang ada
     $matrix = $this->buildDecisionMatrix($breeds, $criteria);
@@ -36,7 +36,7 @@ class TopsisService
     [$distancePositive, $distanceNegative] = $this->calculateDistances($weightedMatrix, $idealPositive, $idealNegative, $breedIds, $criteriaIds);
 
     // * 5. Hitung Nilai Preferensi (V) dan simpan hasil
-    $this->calculateAndSaveRankings($session, $distancePositive, $distanceNegative, $breedIds);
+    $this->calculateAndSaveRankings($evaluationSession, $distancePositive, $distanceNegative, $breedIds);
   }
 
   private function buildDecisionMatrix($breeds, $criteria): array
@@ -45,7 +45,7 @@ class TopsisService
     foreach ($breeds as $breed) {
       foreach ($criteria as $criterion) {
         // * Ambil skor dari relasi 'scores' yang sudah di-load
-        $score = $breed->scores->firstWhere('criterion_id', $criterion->id);
+        $score = $breed->breedScores()->firstWhere('criterion_id', $criterion->id);
         $matrix[$breed->id][$criterion->id] = $score ? $score->score : 0;
       }
     }
@@ -118,7 +118,7 @@ class TopsisService
     return [$distancePositive, $distanceNegative];
   }
 
-  private function calculateAndSaveRankings(EvaluationSession $session, array $distPos, array $distNeg, array $breedIds): void
+  private function calculateAndSaveRankings(EvaluationSession $evaluationSession, array $distPos, array $distNeg, array $breedIds): void
   {
     $finalScores = [];
     foreach ($breedIds as $breedId) {
@@ -130,7 +130,7 @@ class TopsisService
     $rank = 1;
     foreach ($finalScores as $breedId => $score) {
       SessionFinalRanking::updateOrCreate(
-        ['evaluation_session_id' => $session->id, 'breed_id' => $breedId],
+        ['evaluation_session_id' => $evaluationSession->id, 'breed_id' => $breedId],
         ['final_score' => $score, 'rank' => $rank++]
       );
     }

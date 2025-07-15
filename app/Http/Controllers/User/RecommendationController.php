@@ -39,16 +39,16 @@ class RecommendationController extends Controller
     {
         $validatedWeights = $request->validated('weights');
 
-        // 1. Hitung total dari semua bobot yang diberikan pengguna (skala 1-10)
+        // * 1. Hitung total dari semua bobot yang diberikan pengguna (skala 1-10)
         $totalWeight = array_sum($validatedWeights);
 
-        // Mencegah pembagian dengan nol jika semua slider diset ke 0 (walaupun min=1)
+        // * Mencegah pembagian dengan nol jika semua slider diset ke 0 (walaupun min=1)
         if ($totalWeight === 0) {
-            // Jika total 0, anggap semua kriteria sama penting
+            // * Jika total 0, anggap semua kriteria sama penting
             $count = count($validatedWeights);
             $normalizedWeights = array_fill_keys(array_keys($validatedWeights), 1 / $count);
         } else {
-            // 2. Normalisasi setiap bobot
+            // * 2. Normalisasi setiap bobot
             $normalizedWeights = [];
             foreach ($validatedWeights as $criterionId => $weight) {
                 $normalizedWeights[$criterionId] = $weight / $totalWeight;
@@ -57,15 +57,17 @@ class RecommendationController extends Controller
 
         $session = $this->getSession($request);
 
-        // 3. Simpan bobot yang sudah dinormalisasi ke database
+        // * 3. Simpan bobot yang sudah dinormalisasi ke database
         foreach ($normalizedWeights as $criterionId => $weight) {
             SessionCriteriaWeight::updateOrCreate(
                 ['evaluation_session_id' => $session->id, 'criterion_id' => $criterionId],
-                ['weight' => $weight] // Bobot sudah ternormalisasi (misal: 0.25)
+                ['weight' => $weight] // * Bobot sudah ternormalisasi (misal: 0.25)
             );
         }
 
-        // TopsisService akan bekerja dengan bobot yang sudah benar
+        $session->load('sessionCriteriaWeights');
+
+        // * TopsisService akan bekerja dengan bobot yang sudah benar
         $topsisService->calculate($session);
 
         $redirect = redirect()->route('recommendations.index', $session);
@@ -85,11 +87,11 @@ class RecommendationController extends Controller
 
         $guestToken = $request->cookie('guest_token');
         if ($guestToken) {
-            // * Gunakan sesi guest yang ada, atau buat baru jika tidak valid
+            // * * Gunakan sesi guest yang ada, atau buat baru jika tidak valid
             return EvaluationSession::firstOrCreate(['guest_token' => $guestToken]);
         }
 
-        // * Buat sesi baru untuk guest baru
+        // * * Buat sesi baru untuk guest baru
         return EvaluationSession::create(['guest_token' => Str::random(40)]);
     }
 }

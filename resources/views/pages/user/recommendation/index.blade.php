@@ -1,70 +1,83 @@
-<x-user-layout title="Result">
+<x-user-layout title="Your Cat Breed Recommendation">
 
-    <div class="container mx-auto px-4 py-12">
-        <div class="text-center mb-12">
-            <h1 class="text-4xl font-bold text-gray-900">Rekomendasi Terbaik Untukmu</h1>
-            <p class="mt-3 text-lg text-gray-600">Berdasarkan preferensi yang kamu berikan, berikut adalah ras kucing
-                yang paling cocok.</p>
+    <div class="container-narrow py-12 sm:py-16">
+        <div class="text-center mb-10">
+            <h1 class="text-3xl sm:text-4xl font-bold">Here Are Your Top Matches!</h1>
+            <p class="mt-2 text-neutral-600 max-w-2xl mx-auto">
+                Based on the preferences you set, these cat breeds are your most compatible companions.
+            </p>
         </div>
 
-        {{-- * Cek jika ada hasil atau tidak --}}
-        @if ($rankings->isEmpty())
-            <div class="text-center bg-white p-12 rounded-2xl shadow-md max-w-2xl mx-auto">
-                <p class="text-xl text-gray-700">Oops! Tidak ada hasil yang bisa ditampilkan saat ini.</p>
-                <a href="{{ route('recommendations.create') }}"
-                    class="mt-6 inline-block bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg transition duration-300">
-                    Coba Pencarian Baru
-                </a>
-            </div>
-        @else
-            {{-- * Tampilkan hasil jika ada --}}
-            <div class="space-y-6 max-w-4xl mx-auto">
-                @foreach ($rankings as $result)
-                    <div
-                        class="bg-white rounded-2xl shadow-lg overflow-hidden transition duration-300 hover:shadow-xl hover:scale-[1.02]">
-                        <div class="flex flex-col md:flex-row items-stretch">
-
-                            {{-- Kolom Kiri: Peringkat & Skor --}}
-                            <div
-                                class="w-full md:w-32 bg-blue-600 text-white flex flex-row md:flex-col items-center justify-around md:justify-center p-4 text-center flex-shrink-0">
-                                <div class="flex-1 md:flex-none">
-                                    <span class="text-sm font-semibold tracking-wider uppercase">Peringkat</span>
-                                    <p class="text-5xl font-bold">{{ $result->rank }}</p>
-                                </div>
-                                <div class="w-px md:w-16 h-16 md:h-px bg-blue-400 my-2 mx-4 md:mx-0"></div>
-                                <div class="flex-1 md:flex-none">
-                                    <span class="text-sm font-semibold tracking-wider uppercase">Skor</span>
-                                    <p class="text-2xl font-bold">{{ number_format($result->final_score, 3) }}</p>
+        {{-- * Daftar Hasil Peringkat --}}
+        <div class="space-y-6">
+            @forelse ($rankings as $ranking)
+                <div class="card animate-slide-up" style="animation-delay: {{ $loop->index * 100 }}ms;">
+                    <div class="p-4 sm:p-6">
+                        <div class="flex flex-col sm:flex-row items-start gap-6">
+                            {{-- * Peringkat & Foto --}}
+                            <div class="flex-shrink-0 text-center w-full sm:w-40">
+                                <div
+                                    class="relative mx-auto w-24 h-24 sm:w-32 sm:h-32 rounded-full overflow-hidden shadow-lg border-4 {{ $loop->first ? 'border-primary-500' : 'border-neutral-200' }}">
+                                    <img src="{{ $ranking->breed->photo_url ?? 'https://placekitten.com/200/200' }}"
+                                        alt="{{ $ranking->breed->name }}" class="w-full h-full object-cover">
+                                    <div
+                                        class="absolute -top-2 -right-2 w-10 h-10 bg-primary-500 text-white flex items-center justify-center rounded-full text-lg font-bold shadow-md">
+                                        {{ $ranking->rank }}
+                                    </div>
                                 </div>
                             </div>
 
-                            {{-- Kolom Kanan: Info Ras Kucing --}}
-                            <div class="flex-grow flex items-center p-6">
-                                <div class="flex-shrink-0 mr-6">
-                                    <img src="{{ $result->breed->photo_url ?? 'https://placehold.co/150x150/e2e8f0/334155?text=Kucing' }}"
-                                        alt="Foto {{ $result->breed->name }}"
-                                        class="h-28 w-28 md:h-36 md:w-36 rounded-full object-cover ring-4 ring-white shadow-md">
+                            {{-- * Detail Ras --}}
+                            <div class="flex-grow w-full">
+                                <div class="flex justify-between items-baseline">
+                                    <h2 class="text-2xl font-bold text-neutral-900">{{ $ranking->breed->name }}</h2>
+                                    <span class="badge badge-success">{{ round($ranking->final_score * 100) }}%
+                                        Match</span>
                                 </div>
-                                <div class="text-center md:text-left">
-                                    <h2 class="text-2xl font-bold text-gray-900">{{ $result->breed->name }}</h2>
-                                    <p class="mt-2 text-gray-600 text-sm">
-                                        {{ $result->breed->description ?? 'Deskripsi untuk ras ini belum tersedia.' }}
-                                    </p>
+                                <p class="text-sm text-neutral-500 mt-1">
+                                    <i class="fas fa-map-marker-alt fa-fw mr-1"></i>
+                                    Origin: {{ $ranking->breed->origin_country ?? 'Unknown' }}
+                                </p>
+                                <p class="mt-3 text-neutral-600 leading-relaxed">
+                                    {{ Str::limit($ranking->breed->description, 200) }}
+                                </p>
+                                <div class="mt-4 text-right">
+                                    {{-- * Tombol ini bisa diarahkan ke halaman detail ras atau halaman listing --}}
+                                    <a href="#" class="btn btn-primary btn-sm">
+                                        <i class="fas fa-search mr-2"></i>
+                                        View Available {{ $ranking->breed->name }}s
+                                    </a>
                                 </div>
                             </div>
-
                         </div>
                     </div>
-                @endforeach
-            </div>
+                </div>
+            @empty
+                {{-- * Tampilan jika tidak ada hasil --}}
+                <div class="card">
+                    <div class="card-body text-center py-16">
+                        <div class="w-20 h-20 bg-neutral-100 rounded-full mx-auto flex items-center justify-center">
+                            <i class="fas fa-cat text-4xl text-neutral-400"></i>
+                        </div>
+                        <h3 class="mt-4 text-xl font-semibold">No Recommendations Found</h3>
+                        <p class="mt-2 text-neutral-500">We couldn't generate a recommendation based on this session.
+                        </p>
+                        <a href="{{ route('recommendations.create') }}" class="btn btn-primary mt-6">
+                            <i class="fas fa-arrow-left mr-2"></i>
+                            Try Again
+                        </a>
+                    </div>
+                </div>
+            @endforelse
+        </div>
 
-            <div class="text-center mt-12">
-                <a href="{{ route('recommendations.create') }}"
-                    class="inline-block bg-gray-800 hover:bg-gray-900 text-white font-bold py-3 px-6 rounded-lg transition duration-300">
-                    Ulangi Pencarian
-                </a>
-            </div>
-        @endif
+        {{-- * Tombol untuk Mencoba Lagi --}}
+        <div class="mt-12 text-center">
+            <a href="{{ route('recommendations.create') }}" class="btn btn-outline btn-lg">
+                <i class="fas fa-redo-alt mr-2"></i>
+                Recalculate with New Preferences
+            </a>
+        </div>
     </div>
 
 </x-user-layout>

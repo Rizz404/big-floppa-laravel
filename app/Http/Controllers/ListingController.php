@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\IndexListingRequest;
 use App\Models\Listing;
 use App\Http\Requests\StoreListingRequest;
 use App\Http\Requests\UpdateListingRequest;
@@ -11,25 +12,28 @@ class ListingController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(IndexListingRequest $request)
     {
-        //
-    }
+        $filters = $request->validated();
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
+        // Build query
+        $query = Listing::query()
+            ->with('breed', 'primaryPhoto')
+            ->whereIn('status', ['available', 'sold'])
+            ->applyFilters($filters);
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(StoreListingRequest $request)
-    {
-        //
+        // Debug - hapus setelah selesai debugging
+        if (config('app.debug')) {
+            logger('Filters received:', $filters);
+            logger('SQL Query:', ['sql' => $query->toSql(), 'bindings' => $query->getBindings()]);
+        }
+
+        // Paginate results
+        $listings = $query->paginate(20)->withQueryString();
+
+        return view('pages.user.cat.index')
+            ->with('cats', $listings)
+            ->with('filters', $filters);
     }
 
     /**
@@ -37,30 +41,11 @@ class ListingController extends Controller
      */
     public function show(Listing $listing)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Listing $listing)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdateListingRequest $request, Listing $listing)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Listing $listing)
-    {
-        //
+        // if (!in_array($listing->status, ['available', 'sold'])) {
+        //     abort(404);
+        // }
+        $listing->load(['seller', 'breed', 'photos']);
+        return view('pages.user.cat.show')
+            ->with('cat', $listing);
     }
 }

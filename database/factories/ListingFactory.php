@@ -2,22 +2,33 @@
 
 namespace Database\Factories;
 
+use App\Models\Breed;
+use App\Models\Listing;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Str;
 
-/**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Listing>
- */
 class ListingFactory extends Factory
 {
-    /**
-     * Define the model's default state.
-     *
-     * @return array<string, mixed>
-     */
+    protected $model = Listing::class;
+
     public function definition(): array
     {
+        $breed = Breed::inRandomOrder()->first();
+        $title = "Cute " . $breed->name;
+
         return [
-            //
+            'seller_id' => User::inRandomOrder()->first()->id,
+            'breed_id' => $breed->id,
+            'title' => $title,
+            'slug' => Str::slug($title) . '-' . $this->faker->unique()->randomNumber(5),
+            'description' => $this->faker->paragraphs(3, true),
+            'birth_date' => $this->faker->dateTimeBetween('-2 years', '-2 months'),
+            'gender' => $this->faker->randomElement(['male', 'female']),
+            'location' => $this->faker->city(),
+            'is_vaccinated' => $this->faker->boolean(80),
+            'is_dewormed' => $this->faker->boolean(70),
+            'status' => $this->faker->randomElement(['available', 'sold', 'archived']),
         ];
     }
 }

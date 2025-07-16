@@ -20,6 +20,8 @@ class DatabaseSeeder extends Seeder
             CriterionSeeder::class,
             BreedSeeder::class,
             BreedScoreSeeder::class,
+            ListingSeeder::class,
+            ListingPhotoSeeder::class,
         ]);
     }
 }

@@ -3,7 +3,7 @@
     'transparent' => false,
 ])
 
-{{-- Todo: Nanti routenya benerin semuanya --}}
+{{-- * Todo: Nanti routenya benerin semuanya --}}
 <header
     class="relative {{ $sticky ? 'sticky top-0 z-40' : '' }} {{ $transparent ? 'bg-transparent' : 'bg-white' }} shadow-sm border-b border-neutral-200 transition-all duration-300"
     x-data="{
@@ -19,7 +19,7 @@
     cartCount = parseInt(localStorage.getItem('cart_count') || '0');"
     :class="{ 'backdrop-blur-md bg-white/90': scrolled && {{ $transparent ? 'true' : 'false' }} }">
 
-    {{-- Top Bar (Optional promotional bar) --}}
+    {{-- * Top Bar (Optional promotional bar) --}}
     <div class="bg-primary-500 text-white text-sm py-2 text-center" x-data="{ show: true }" x-show="show">
         <div class="container mx-auto flex items-center justify-between">
             <div class="flex-1 text-center">
@@ -32,12 +32,12 @@
         </div>
     </div>
 
-    {{-- Main Header --}}
+    {{-- * Main Header --}}
     <div class="container mx-auto">
         <div class="flex items-center justify-between h-16 lg:h-20">
-            {{-- Logo --}}
+            {{-- * Logo --}}
             <div class="flex items-center">
-                <a href="#" class="flex items-center space-x-2 group">
+                <a href="{{ route('landing') }}" class="flex items-center space-x-2 group">
                     <div
                         class="w-10 h-10 bg-gradient-primary rounded-full flex items-center justify-center group-hover:scale-105 transition-transform duration-200">
                         <i class="fas fa-cat text-white text-xl"></i>
@@ -49,56 +49,27 @@
                 </a>
             </div>
 
-            {{-- Desktop Navigation --}}
+            {{-- * Desktop Navigation --}}
             <nav class="hidden lg:flex items-center space-x-8">
-                <a href="#" class="nav-link nav-link-active">
+                <a href="{{ route('landing') }}" class="nav-link ">
                     <i class="fas fa-home mr-1"></i>
                     Home
                 </a>
-                <div class="relative group">
-                    <a href="#" class="nav-link flex items-center">
-                        <i class="fas fa-box mr-1"></i>
-                        Products
-                        <i class="fas fa-chevron-down ml-1 text-xs transition-transform group-hover:rotate-180"></i>
-                    </a>
-                    {{-- Dropdown Menu --}}
-                    <div
-                        class="absolute top-full left-0 mt-2 w-48 bg-white rounded-md shadow-lg border border-neutral-200 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
-                        <div class="py-2">
-                            <a href="#"
-                                class="block px-4 py-2 text-sm text-neutral-600 hover:bg-neutral-100 hover:text-primary-600">
-                                <i class="fas fa-utensils mr-2"></i>
-                                Makanan Kucing
-                            </a>
-                            <a href="#"
-                                class="block px-4 py-2 text-sm text-neutral-600 hover:bg-neutral-100 hover:text-primary-600">
-                                <i class="fas fa-dice mr-2"></i>
-                                Mainan
-                            </a>
-                            <a href="#"
-                                class="block px-4 py-2 text-sm text-neutral-600 hover:bg-neutral-100 hover:text-primary-600">
-                                <i class="fas fa-tshirt mr-2"></i>
-                                Aksesoris
-                            </a>
-                            <a href="#"
-                                class="block px-4 py-2 text-sm text-neutral-600 hover:bg-neutral-100 hover:text-primary-600">
-                                <i class="fas fa-heartbeat mr-2"></i>
-                                Kesehatan
-                            </a>
-                        </div>
-                    </div>
-                </div>
-                <a href="#" class="nav-link">
+                <a href="{{ route('cats.index') }}" class="nav-link nav-link-active">
+                    <i class="fas fa-cat mr-1"></i>
+                    Cats
+                </a>
+                <a href="{{ route('about') }}" class="nav-link">
                     <i class="fas fa-info-circle mr-1"></i>
                     About
                 </a>
-                <a href="#" class="nav-link">
+                <a href="{{ route('contact') }}" class="nav-link">
                     <i class="fas fa-envelope mr-1"></i>
                     Contact
                 </a>
             </nav>
 
-            {{-- Search Bar (Desktop) --}}
+            {{-- * Search Bar (Desktop) --}}
             <div class="hidden lg:flex items-center flex-1 max-w-md mx-8">
                 <div class="relative w-full">
                     <form action="#" method="GET" class="relative">
@@ -113,26 +84,26 @@
                 </div>
             </div>
 
-            {{-- Right Side Actions --}}
+            {{-- * Right Side Actions --}}
             <div class="flex items-center space-x-4">
-                {{-- Search Button (Mobile) --}}
+                {{-- * Search Button (Mobile) --}}
                 <button @click="searchOpen = !searchOpen"
                     class="lg:hidden text-neutral-600 hover:text-primary-600 transition-colors">
                     <i class="fas fa-search text-lg"></i>
                 </button>
 
-                {{-- Wishlist --}}
+                {{-- * Wishlist --}}
                 @auth
                     <a href="#" class="relative text-neutral-600 hover:text-primary-600 transition-colors">
                         <i class="fas fa-heart text-lg"></i>
                         <span
                             class="absolute -top-2 -right-2 bg-danger-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
-                            {{-- {{ auth()->user()->wishlist()->count() }} --}} 0
+                            {{-- * {{ auth()->user()->wishlist()->count() }} --}} 0
                         </span>
                     </a>
                 @endauth
 
-                {{-- Cart --}}
+                {{-- * Cart --}}
                 <button @click="cartOpen = !cartOpen"
                     class="relative text-neutral-600 hover:text-primary-600 transition-colors">
                     <i class="fas fa-shopping-cart text-lg"></i>
@@ -141,7 +112,7 @@
                         x-text="cartCount" x-show="cartCount > 0"></span>
                 </button>
 
-                {{-- User Menu --}}
+                {{-- * User Menu --}}
                 @auth
                     <div class="relative" x-data="{ userMenuOpen: false }">
                         <button @click="userMenuOpen = !userMenuOpen"
@@ -151,7 +122,7 @@
                             <i class="fas fa-chevron-down ml-1 text-xs"></i>
                         </button>
 
-                        {{-- User Dropdown --}}
+                        {{-- * User Dropdown --}}
                         <div x-show="userMenuOpen" @click.away="userMenuOpen = false"
                             x-transition:enter="transition ease-out duration-200"
                             x-transition:enter-start="opacity-0 scale-95" x-transition:enter-end="opacity-100 scale-100"
@@ -198,7 +169,7 @@
                     </a>
                 @endauth
 
-                {{-- Mobile Menu Button --}}
+                {{-- * Mobile Menu Button --}}
                 <button @click="mobileMenuOpen = !mobileMenuOpen"
                     class="lg:hidden text-neutral-600 hover:text-primary-600 transition-colors">
                     <i class="fas fa-bars text-lg" x-show="!mobileMenuOpen"></i>
@@ -208,22 +179,22 @@
         </div>
     </div>
 
-    {{-- Mobile Search Bar --}}
+    {{-- * Mobile Search Bar --}}
     <div x-show="searchOpen" x-transition:enter="transition ease-out duration-200"
         x-transition:enter-start="opacity-0 -translate-y-2" x-transition:enter-end="opacity-100 translate-y-0"
         x-transition:leave="transition ease-in duration-150" x-transition:leave-start="opacity-100 translate-y-0"
         x-transition:leave-end="opacity-0 -translate-y-2"
         class="lg:hidden border-t border-neutral-200 bg-white px-4 py-3">
         <form action="#" method="GET" class="relative">
-            <input type="text" name="search" value="{{ request('search') }}" placeholder="Cari produk kucing..."
-                class="form-input pl-10 pr-4 w-full rounded-full">
+            <input type="text" name="search" value="{{ request('search') }}"
+                placeholder="Cari produk kucing..." class="form-input pl-10 pr-4 w-full rounded-full">
             <button type="submit" class="absolute left-3 top-1/2 transform -translate-y-1/2 text-neutral-400">
                 <i class="fas fa-search"></i>
             </button>
         </form>
     </div>
 
-    {{-- Mobile Menu --}}
+    {{-- * Mobile Menu --}}
     <div x-show="mobileMenuOpen" x-transition:enter="transition ease-out duration-200"
         x-transition:enter-start="opacity-0 -translate-y-4" x-transition:enter-end="opacity-100 translate-y-0"
         x-transition:leave="transition ease-in duration-150" x-transition:leave-start="opacity-100 translate-y-0"
@@ -261,7 +232,7 @@
         </div>
     </div>
 
-    {{-- Cart Slide Panel --}}
+    {{-- * Cart Slide Panel --}}
     <div x-show="cartOpen" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0"
         x-transition:enter-end="opacity-100" x-transition:leave="transition ease-in duration-200"
         x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0"
@@ -272,7 +243,7 @@
             x-transition:leave-end="translate-x-full"
             class="absolute right-0 top-0 h-full w-full max-w-md bg-white shadow-xl" @click.stop>
             <div class="flex flex-col h-full">
-                {{-- Cart Header --}}
+                {{-- * Cart Header --}}
                 <div class="flex items-center justify-between px-6 py-4 border-b border-neutral-200">
                     <h3 class="text-lg font-semibold text-neutral-900">Shopping Cart</h3>
                     <button @click="cartOpen = false" class="text-neutral-400 hover:text-neutral-600">
@@ -280,10 +251,10 @@
                     </button>
                 </div>
 
-                {{-- Cart Content --}}
+                {{-- * Cart Content --}}
                 <div class="flex-1 overflow-y-auto p-6">
                     <div id="cart-items">
-                        {{-- Cart items akan di-load via JavaScript --}}
+                        {{-- * Cart items akan di-load via JavaScript --}}
                         <div class="text-center py-8">
                             <i class="fas fa-shopping-cart text-4xl text-neutral-300 mb-4"></i>
                             <p class="text-neutral-500">Keranjang Anda kosong</p>
@@ -291,7 +262,7 @@
                     </div>
                 </div>
 
-                {{-- Cart Footer --}}
+                {{-- * Cart Footer --}}
                 <div class="border-t border-neutral-200 p-6">
                     <div class="flex justify-between items-center mb-4">
                         <span class="text-lg font-semibold">Total:</span>

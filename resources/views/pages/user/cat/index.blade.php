@@ -10,57 +10,53 @@
                     <div class="card-body space-y-6">
                         {{-- * Sorting --}}
                         <div>
-                            <label for="sort_by" class="form-label">Sort By</label>
-                            <select name="sort_by" id="sort_by" class="form-select">
+                            <x-ui.dropdown label="Sort By" name="sort_by">
                                 <option value="created_at" @selected(request('sort_by', 'created_at') == 'created_at')>Newest</option>
                                 <option value="title" @selected(request('sort_by') == 'title')>Title</option>
                                 <option value="updated_at" @selected(request('sort_by') == 'updated_at')>Last Updated</option>
-                            </select>
-                            <select name="sort_direction" class="form-select mt-2">
-                                <option value="desc" @selected(request('sort_direction', 'desc') == 'desc')>Descending</option>
-                                <option value="asc" @selected(request('sort_direction') == 'asc')>Ascending</option>
-                            </select>
+                            </x-ui.dropdown>
+                            <div class="mt-2">
+                                <x-ui.dropdown name="sort_direction">
+                                    <option value="desc" @selected(request('sort_direction', 'desc') == 'desc')>Descending</option>
+                                    <option value="asc" @selected(request('sort_direction') == 'asc')>Ascending</option>
+                                </x-ui.dropdown>
+                            </div>
                         </div>
 
                         {{-- * Gender --}}
                         <div>
-                            <label for="gender" class="form-label">Gender</label>
-                            <select name="gender" id="gender" class="form-select">
+                            <x-ui.dropdown label="Gender" name="gender">
                                 <option value="">All</option>
                                 <option value="male" @selected(request('gender') == 'male')>Male</option>
                                 <option value="female" @selected(request('gender') == 'female')>Female</option>
-                            </select>
+                            </x-ui.dropdown>
                         </div>
 
                         {{-- * Umur --}}
                         <div>
                             <label class="form-label">Age (years)</label>
                             <div class="flex items-center gap-2">
-                                <input type="number" name="age_min" placeholder="Min" value="{{ request('age_min') }}"
-                                    class="form-input">
+                                <x-ui.input type="number" name="age_min" placeholder="Min"
+                                    value="{{ request('age_min') }}" />
                                 <span>-</span>
-                                <input type="number" name="age_max" placeholder="Max" value="{{ request('age_max') }}"
-                                    class="form-input">
+                                <x-ui.input type="number" name="age_max" placeholder="Max"
+                                    value="{{ request('age_max') }}" />
                             </div>
                         </div>
 
                         {{-- * Status Kesehatan --}}
-                        <div class="space-y-2">
-                            <label class="flex items-center">
-                                <input type="checkbox" name="is_vaccinated" value="1" @checked(request('is_vaccinated'))
-                                    class="form-checkbox">
-                                <span class="ml-2">Vaccinated</span>
-                            </label>
-                            <label class="flex items-center">
-                                <input type="checkbox" name="is_dewormed" value="1" @checked(request('is_dewormed'))
-                                    class="form-checkbox">
-                                <span class="ml-2">Dewormed</span>
-                            </label>
+                        <div>
+                            <label class="form-label">Health Status</label>
+                            <div class="space-y-2 mt-1">
+                                <x-ui.checkbox name="is_vaccinated" label="Vaccinated" value="1"
+                                    :checked="request()->has('is_vaccinated')" />
+                                <x-ui.checkbox name="is_dewormed" label="Dewormed" value="1" :checked="request()->has('is_dewormed')" />
+                            </div>
                         </div>
                     </div>
                     <div class="card-footer flex items-center gap-4">
-                        <button type="submit" class="btn btn-primary w-full">Apply</button>
-                        <a href="{{ route('cats.index') }}" class="btn btn-ghost">Reset</a>
+                        <x-ui.button type="submit" variant="primary" class="w-full">Apply</x-ui.button>
+                        <x-ui.button variant="ghost" :href="route('cats.index')">Reset</x-ui.button>
                     </div>
                 </form>
             </aside>
@@ -71,8 +67,9 @@
                     @forelse($cats as $cat)
                         <div class="card">
                             <a href="{{ route('cats.show', $cat) }}">
-                                <img src="{{ $cat->primaryPhoto?->path ? $cat->primaryPhoto->path : 'https://placekitten.com/400/300?image=' . $loop->iteration }}"
-                                    alt="{{ $cat->title }}" class="w-full h-48 object-cover"> </a>
+                                <img src="{{ $cat->primaryPhoto?->path ?? 'https://placekitten.com/400/300?image=' . $loop->iteration }}"
+                                    alt="{{ $cat->title }}" class="w-full h-48 object-cover">
+                            </a>
                             <div class="card-body">
                                 <div class="flex justify-between items-start">
                                     <h4 class="font-bold text-lg text-neutral-900">
@@ -103,7 +100,7 @@
 
                 {{-- * Paginasi --}}
                 <div class="mt-8">
-                    {{ $cats->links() }}
+                    {{ $cats->withQueryString()->links() }}
                 </div>
             </main>
         </div>

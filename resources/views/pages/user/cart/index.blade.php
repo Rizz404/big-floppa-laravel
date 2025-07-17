@@ -8,6 +8,42 @@
                     itemsWithPrices: {{ $cartItems->mapWithKeys(function ($item) {
                         return [$item->id => $item->listing->price];
                     }) }},
+                    // Method baru untuk handle checkout
+                    async goToCheckout() {
+                        if (this.selectedItems.length === 0) {
+                            Swal.fire('No Items Selected', 'Please select items to checkout.', 'warning');
+                            return;
+                        }
+                
+                        const button = this.$refs.checkoutButton;
+                        const originalButtonHtml = button.innerHTML;
+                        button.disabled = true;
+                        button.innerHTML = `<span class='loading-spinner mr-2'></span> Preparing...`;
+                
+                        try {
+                            const response = await fetch('{{ route('orders.prepare') }}', {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                    'Accept': 'application/json',
+                                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                                },
+                                body: JSON.stringify({ selectedItems: this.selectedItems })
+                            });
+                
+                            const data = await response.json();
+                
+                            if (response.ok && data.redirect_url) {
+                                window.location.href = data.redirect_url;
+                            } else {
+                                throw new Error(data.message || 'Failed to prepare checkout.');
+                            }
+                        } catch (error) {
+                            Swal.fire('Error', error.message, 'error');
+                            button.disabled = false;
+                            button.innerHTML = originalButtonHtml;
+                        }
+                    },
                     itemsWithImages: {{ $cartItems->mapWithKeys(function ($item) {
                         $imagePath = $item->listing->primaryPhoto?->path ?? 'https://placekitten.com/200/200';
                         return [$item->id => asset($imagePath)];
@@ -132,10 +168,11 @@
                                     <span class="text-xl font-bold text-primary-600"
                                         x-text="formatCurrency(selectedTotal)"></span>
                                 </div>
-                                <x-ui.button tag="a" href="#" variant="primary" class="w-full"
-                                    x-bind:disabled="selectedItems.length === 0">
+                                <button type="button" class="btn btn-primary w-full"
+                                    x-bind:disabled="selectedItems.length === 0" @click="goToCheckout()"
+                                    x-ref="checkoutButton">
                                     Proceed to Checkout
-                                </x-ui.button>
+                                </button>
                             </div>
                         </div>
                     </div>

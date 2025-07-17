@@ -85,6 +85,13 @@ class User extends Authenticatable implements FilamentUser
         return $this->hasMany(UserAddress::class);
     }
 
+    public function userPrimaryAddress()
+    {
+        return $this->hasOne(UserAddress::class)
+            ->where('is_primary', true)
+            ->latest();
+    }
+
     public function reviewsGiven()
     {
         return $this->hasMany(Review::class, 'reviewer_id');

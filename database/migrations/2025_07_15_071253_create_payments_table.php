@@ -16,7 +16,7 @@ return new class extends Migration
             $table->ulid('id')->primary();
             $table->foreignUlid('order_id')->constrained('orders')->restrictOnDelete();
             $table->string('payment_method', 100);
-            $table->string('external_transaction_id ', 100)->nullable();
+            $table->string('external_transaction_id', 100)->nullable();
             $table->decimal('amount', 12, 2);
             $table->enum('status', [
                 'pending',

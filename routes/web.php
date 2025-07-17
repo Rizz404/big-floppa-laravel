@@ -5,6 +5,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\LandingController;
 use App\Http\Controllers\ListingController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\UserProfileController;
 use App\Http\Controllers\User\AboutController;
 use App\Http\Controllers\User\ContactController;
@@ -39,17 +40,29 @@ Route::prefix('cats')->name('cats.')->group(function () {
 
 // * Auth
 Route::middleware('auth')->group(function () {
-  Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
-  Route::post('/cart', [CartController::class, 'store'])->name('cart.store');
-  Route::delete('/cart', [CartController::class, 'destroy'])->name('cart.destroy');
-});
+  // * Cart
+  Route::prefix('cart')->name('cart.')->group(function () {
+    Route::get('/', [CartController::class, 'index'])->name('index');
+    Route::post('/', [CartController::class, 'store'])->name('store');
+    Route::delete('/', [CartController::class, 'destroy'])->name('destroy');
+  });
 
+  // * Profile
+  Route::prefix('profile')->name('profile.')->group(function () {
+    Route::get('/', [UserProfileController::class, 'showProfile'])->name('show');
+    Route::put('/', [UserProfileController::class, 'updateProfile'])->name('update');
+    Route::put('/password', [UserProfileController::class, 'updatePassword'])->name('password.update');
 
-Route::middleware('auth')->prefix('profile')->name('profile.')->group(function () {
-  Route::get('/', [UserProfileController::class, 'showProfile'])->name('show');
-  Route::put('/', [UserProfileController::class, 'updateProfile'])->name('update');
-  Route::put('/password', [UserProfileController::class, 'updatePassword'])->name('password.update');
+    Route::patch('addresses/{address}/set-primary', [UserAddressController::class, 'setPrimary'])->name('addresses.setPrimary');
+    Route::resource('addresses', UserAddressController::class);
+  });
 
-  Route::patch('addresses/{address}/set-primary', [UserAddressController::class, 'setPrimary'])->name('addresses.setPrimary');
-  Route::resource('addresses', UserAddressController::class);
+  // * Order
+  Route::prefix('orders')->name("orders.")->group(function () {
+    Route::get('/create', [OrderController::class, 'create'])->name('create');
+    Route::post('/prepare', [OrderController::class, 'prepareCheckout'])->name('prepare');
+    Route::post('/', [OrderController::class, 'store'])->name('store');
+    Route::get('/', [OrderController::class, 'index'])->name('index');
+    Route::get('/{order}', [OrderController::class, 'show'])->name('show');
+  });
 });

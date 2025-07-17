@@ -135,7 +135,7 @@
                                         class="block px-4 py-2 text-sm text-neutral-600 hover:bg-neutral-100 hover:text-primary-600">
                                         <i class="fas fa-user fa-fw mr-2"></i>Profile
                                     </a>
-                                    <a href="#"
+                                    <a href="{{ route('orders.index') }}"
                                         class="block px-4 py-2 text-sm text-neutral-600 hover:bg-neutral-100 hover:text-primary-600">
                                         <i class="fas fa-shopping-bag fa-fw mr-2"></i>Orders
                                     </a>

@@ -1,11 +1,24 @@
 <?php
 
+use App\Http\Controllers\UserAddressController;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CartController;
 use App\Http\Controllers\LandingController;
 use App\Http\Controllers\ListingController;
+use App\Http\Controllers\UserProfileController;
 use App\Http\Controllers\User\AboutController;
 use App\Http\Controllers\User\ContactController;
 use App\Http\Controllers\User\RecommendationController;
 use Illuminate\Support\Facades\Route;
+
+Route::middleware('guest')->group(function () {
+  Route::get('/register', [AuthController::class, 'showRegisterForm'])->name('register');
+  Route::post('/register', [AuthController::class, 'register'])->name('register');
+  Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
+  Route::post('/login', [AuthController::class, 'login'])->name('login');
+});
+
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout')->middleware('auth');
 
 Route::get('/', [LandingController::class, "index"])->name('landing');
 Route::get('/about', [AboutController::class, "index"])->name('about');
@@ -22,4 +35,21 @@ Route::prefix("recommendations")->name('recommendations.')->group(function () {
 Route::prefix('cats')->name('cats.')->group(function () {
   Route::get('/', [ListingController::class, 'index'])->name('index');
   Route::get('/{listing}', [ListingController::class, 'show'])->name('show');
+});
+
+// * Auth
+Route::middleware('auth')->group(function () {
+  Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
+  Route::post('/cart', [CartController::class, 'store'])->name('cart.store');
+  Route::delete('/cart', [CartController::class, 'destroy'])->name('cart.destroy');
+});
+
+
+Route::middleware('auth')->prefix('profile')->name('profile.')->group(function () {
+  Route::get('/', [UserProfileController::class, 'showProfile'])->name('show');
+  Route::put('/', [UserProfileController::class, 'updateProfile'])->name('update');
+  Route::put('/password', [UserProfileController::class, 'updatePassword'])->name('password.update');
+
+  Route::patch('addresses/{address}/set-primary', [UserAddressController::class, 'setPrimary'])->name('addresses.setPrimary');
+  Route::resource('addresses', UserAddressController::class);
 });

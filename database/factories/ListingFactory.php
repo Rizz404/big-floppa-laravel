@@ -23,6 +23,7 @@ class ListingFactory extends Factory
             'title' => $title,
             'slug' => Str::slug($title) . '-' . $this->faker->unique()->randomNumber(5),
             'description' => $this->faker->paragraphs(3, true),
+            'price' => $this->faker->randomFloat(2, 100000, 10000000),
             'birth_date' => $this->faker->dateTimeBetween('-2 years', '-2 months'),
             'gender' => $this->faker->randomElement(['male', 'female']),
             'location' => $this->faker->city(),

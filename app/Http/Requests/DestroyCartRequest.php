@@ -2,18 +2,16 @@
 
 namespace App\Http\Requests;
 
-use App\Models\Listing;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 
-class StoreCartRequest extends FormRequest
+class DestroyCartRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
      */
     public function authorize(): bool
     {
-        // * Kalo auth pake ini atau true, yang lainnya false
         return Auth::check();
     }
 
@@ -25,7 +23,8 @@ class StoreCartRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'listing_id' => ['required', 'ulid', 'exists:listings,id']
+            'item_ids' => ['required', 'array'],
+            'item_ids.*' => ['ulid', 'exists:cart_items,id'],
         ];
     }
 }

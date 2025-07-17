@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('title', 255);
             $table->string('slug')->unique();
             $table->text('description')->nullable();
+            $table->decimal('price', 12, 2);
             $table->date('birth_date');
             $table->enum('gender', ['male', 'female']);
             $table->string('location', 255);

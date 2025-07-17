@@ -2,65 +2,65 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Cart;
+use App\Http\Requests\DestroyCartRequest;
 use App\Http\Requests\StoreCartRequest;
-use App\Http\Requests\UpdateCartRequest;
+use App\Models\CartItem;
+use Illuminate\Http\HttpCartRequest;
+use Illuminate\Support\Facades\Auth;
 
 class CartController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        //
+        $user = Auth::user();
+        $cartItems = CartItem::where('cart_id', $user->cart->id)
+            ->with('listing.primaryPhoto', 'listing.breed')
+            ->latest()
+            ->paginate(10);
+
+        return view('pages.user.cart.index', compact('cartItems'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(StoreCartRequest $request)
     {
-        //
+        $validated = $request->validated();
+
+        $cart = Auth::user()->cart;
+
+        CartItem::firstOrCreate(
+            [
+                'cart_id' => $cart->id,
+                'listing_id' => $validated['listing_id'],
+            ]
+        );
+
+        // * Hapus cache agar dihitung ulang pada request berikutnya
+        $cart->forgetItemsCountCache();
+
+        toast("Cat added to your cart!", "success");
+        return back()->with('success', 'Cat added to your cart!');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Cart $cart)
+    public function destroy(DestroyCartRequest $request)
     {
-        //
-    }
+        $validated = $request->validated();
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Cart $cart)
-    {
-        //
-    }
+        $cart = Auth::user()->cart;
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdateCartRequest $request, Cart $cart)
-    {
-        //
-    }
+        $deletedCount = CartItem::whereIn('id', $validated['item_ids'])
+            ->where('cart_id', Auth::user()->cart->id)
+            ->delete();
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Cart $cart)
-    {
-        //
+        if ($deletedCount > 0) {
+            // * Hapus cache karena ada item yang dihapus
+            $cart->forgetItemsCountCache();
+        }
+
+        if ($deletedCount === 0) {
+            return back()->with('error', 'No items were deleted. Please try again.');
+        }
+
+        toast($deletedCount . ' item(s) removed from your cart.', "success");
+        return back()->with('success', $deletedCount . ' item(s) removed from your cart.');
     }
 }

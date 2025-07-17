@@ -65,31 +65,7 @@
             <main class="col-span-1 lg:col-span-3">
                 <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
                     @forelse($cats as $cat)
-                        <div class="card">
-                            <a href="{{ route('cats.show', $cat) }}">
-                                <img src="{{ $cat->primaryPhoto?->path ?? 'https://placekitten.com/400/300?image=' . $loop->iteration }}"
-                                    alt="{{ $cat->title }}" class="w-full h-48 object-cover">
-                            </a>
-                            <div class="card-body">
-                                <div class="flex justify-between items-start">
-                                    <h4 class="font-bold text-lg text-neutral-900">
-                                        <a href="{{ route('cats.show', $cat) }}"
-                                            class="hover:text-primary-600">{{ $cat->title }}</a>
-                                    </h4>
-                                    <span
-                                        class="badge {{ $cat->status == 'available' ? 'badge-success' : 'badge-danger' }}">{{ Str::ucfirst($cat->status) }}</span>
-                                </div>
-                                <p class="text-sm text-neutral-500">{{ $cat->breed->name }}</p>
-                                <div class="mt-4 flex flex-wrap gap-2">
-                                    @if ($cat->is_vaccinated)
-                                        <span class="badge badge-secondary">Vaccinated</span>
-                                    @endif
-                                    @if ($cat->is_dewormed)
-                                        <span class="badge badge-secondary">Dewormed</span>
-                                    @endif
-                                </div>
-                            </div>
-                        </div>
+                        <x-cards.cat-cat :cat="$cat" />
                     @empty
                         <div class="md:col-span-2 xl:col-span-3 text-center py-16 card">
                             <h3 class="text-xl font-semibold">No Listings Found</h3>
@@ -99,6 +75,7 @@
                 </div>
 
                 {{-- * Paginasi --}}
+                {{-- Todo: Benerin paginasi belum tampil --}}
                 <div class="mt-8">
                     {{ $cats->withQueryString()->links() }}
                 </div>

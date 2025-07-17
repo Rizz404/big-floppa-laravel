@@ -11,11 +11,12 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class UserProfileController extends Controller
+class ProfileController extends Controller
 {
     public function showProfile()
     {
         $user = Auth::user()->load('userProfile');
+        // Nanti kita akan membuat view ini
         return view('pages.user.profile.show', compact('user'));
     }
 

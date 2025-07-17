@@ -80,7 +80,7 @@ class User extends Authenticatable implements FilamentUser
         return $this->hasOne(UserProfile::class);
     }
 
-    public function userAddress()
+    public function userAddresses()
     {
         return $this->hasMany(UserAddress::class);
     }

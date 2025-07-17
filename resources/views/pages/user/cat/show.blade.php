@@ -101,17 +101,20 @@
 
                         {{-- * TODO: Tambahkan detail penjual lain jika ada --}}
                     </div>
-                    <div class="card-footer">
+                    <form method="POST" action="{{ route('cart.store') }}" class="card-footer">
+                        @csrf
+
+                        <x-ui.input type="hidden" name="listing_id" value="{{ $cat->id }}" />
                         @if ($cat->status == 'available')
-                            <button class="btn btn-primary w-full btn-lg">
+                            <x-ui.button type="submit" variant="primary" size="lg" class="w-full">
                                 <i class="fas fa-shopping-cart mr-2"></i> Add to Cart
-                            </button>
+                            </x-ui.button>
                         @else
                             <button class="btn btn-neutral w-full btn-lg" disabled>
                                 <i class="fas fa-ban mr-2"></i> Already Sold
                             </button>
                         @endif
-                    </div>
+                    </form>
                 </div>
             </div>
         </div>

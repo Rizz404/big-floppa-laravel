@@ -2,65 +2,87 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\UserAddress;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreUserAddressRequest;
-use App\Http\Requests\UpdateUserAddressRequest;
+use App\Models\UserAddress;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class UserAddressController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        //
+        $userAddresses = Auth::user()->userAddresses()->latest()->get();
+        return view('pages.user.profile.addresses.index', compact('userAddresses'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        //
+        return view('pages.user.profile.addresses.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(StoreUserAddressRequest $request)
     {
-        //
+        $validated = $request->validated();
+        $user = Auth::user();
+
+        DB::transaction(function () use ($user, $validated) {
+            if (!empty($validated['is_primary'])) {
+                $user->userAddresses()->update(['is_primary' => false]);
+            }
+            $user->userAddresses()->create($validated);
+        });
+
+        return redirect()->route('profile.addresses.index')->with('success', 'Address added successfully.');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(UserAddress $userAddress)
+    public function edit(UserAddress $address)
     {
-        //
+        // Todo: Nanti pelajari lagi tentang providers dan gate
+        // $this->authorize('update', $address);
+        return view('pages.user.profile.addresses.edit', compact('address'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(UserAddress $userAddress)
+    public function update(StoreUserAddressRequest $request, UserAddress $address)
     {
-        //
+        // $this->authorize('update', $address);
+        $validated = $request->validated();
+        $user = Auth::user();
+
+        DB::transaction(function () use ($user, $address, $validated) {
+            if (!empty($validated['is_primary'])) {
+                $user->userAddresses()->where('id', '!=', $address->id)->update(['is_primary' => false]);
+            }
+            $address->update($validated);
+        });
+
+        return redirect()->route('profile.addresses.index')->with('success', 'Address updated successfully.');
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdateUserAddressRequest $request, UserAddress $userAddress)
+    public function destroy(UserAddress $address)
     {
-        //
+        // $this->authorize('delete', $address);
+
+        if ($address->is_primary) {
+            return back()->with('error', 'Cannot delete primary address. Please set another address as primary first.');
+        }
+
+        $address->delete();
+        return back()->with('success', 'Address deleted successfully.');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(UserAddress $userAddress)
+
+
+    public function setPrimary(UserAddress $address)
     {
-        //
+        // $this->authorize('update', $address);
+        $user = Auth::user();
+
+        DB::transaction(function () use ($user, $address) {
+            $user->userAddresses()->update(['is_primary' => false]);
+            $address->update(['is_primary' => true]);
+        });
+
+        return back()->with('success', 'Primary address has been updated.');
     }
 }

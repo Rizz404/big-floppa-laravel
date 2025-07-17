@@ -4,36 +4,19 @@
     'keywords' => '',
     'ogImage' => '',
     'showHeader' => true,
-    'showFooter' => true,
+    'showFooter' => false,
     'containerClass' => '',
 ])
 
 <x-app-layout :title="$title" :description="$description" :keywords="$keywords" :og-image="$ogImage">
-    {{-- Global Alert Container --}}
-    <div class="fixed top-0 left-0 z-50 w-full pointer-events-none p-4" x-data="{ alerts: [] }">
-        @php
-            $alertTypes = ['success', 'error', 'warning', 'info', 'raw'];
-        @endphp
-
-        @foreach ($alertTypes as $type)
-            @if (session()->has($type))
-                <div class="pointer-events-auto mb-4" data-alert>
-                    <x-ui.alert type="{{ $type }}">
-                        {{ session($type) }}
-                    </x-ui.alert>
-                </div>
-            @endif
-        @endforeach
-    </div>
-
-    {{-- Header --}}
+    {{-- * Header --}}
     @if ($showHeader)
         <x-partials.header />
     @endif
 
-    {{-- Main Content Area --}}
+    {{-- * Main Content Area --}}
     <main class="flex-1 {{ $containerClass }}">
-        {{-- Breadcrumb Section (jika diperlukan) --}}
+        {{-- * Breadcrumb Section (jika diperlukan) --}}
         {{-- @if (isset($breadcrumbs) && $breadcrumbs)
             <div class="container-custom py-4">
                 <nav class="flex" aria-label="Breadcrumb">
@@ -44,18 +27,18 @@
             </div>
         @endif --}}
 
-        {{-- Page Content --}}
+        {{-- * Page Content --}}
         <div class="min-h-screen">
             {{ $slot }}
         </div>
     </main>
 
-    {{-- Footer --}}
+    {{-- * Footer --}}
     @if ($showFooter)
         <x-partials.footer />
     @endif
 
-    {{-- Back to Top Button --}}
+    {{-- * Back to Top Button --}}
     {{-- <button id="back-to-top"
         class="fixed bottom-8 right-8 z-40 hidden p-3 rounded-full bg-primary-500 text-white shadow-lg hover:bg-primary-600 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2"
         onclick="window.scrollTo({ top: 0, behavior: 'smooth' })" aria-label="Back to top">

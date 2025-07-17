@@ -37,7 +37,7 @@ class UserAddressPolicy
      */
     public function update(User $user, UserAddress $userAddress): bool
     {
-        return false;
+        return $user->id === $userAddress->user_id;
     }
 
     /**
@@ -45,7 +45,7 @@ class UserAddressPolicy
      */
     public function delete(User $user, UserAddress $userAddress): bool
     {
-        return false;
+        return $user->id === $userAddress->user_id;
     }
 
     /**

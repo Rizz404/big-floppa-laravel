@@ -104,49 +104,9 @@
                     and a loving family.</p>
             </div>
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <div class="card">
-                    <img class="w-full h-56 object-cover" src="https://placekitten.com/408/287"
-                        alt="Cat named Whiskers">
-                    <div class="card-body">
-                        <div class="flex justify-between items-center">
-                            <h3 class="text-2xl font-bold text-neutral-900">Whiskers</h3>
-                            <span class="badge badge-secondary">2 years old</span>
-                        </div>
-                        <p class="mt-2 text-neutral-600">A curious and playful gentleman who loves feather toys and
-                            sunny spots.</p>
-                    </div>
-                    <div class="card-footer text-right">
-                        <a href="#" class="btn btn-outline">Meet Whiskers</a>
-                    </div>
-                </div>
-                <div class="card">
-                    <img class="w-full h-56 object-cover" src="https://placekitten.com/409/287" alt="Cat named Luna">
-                    <div class="card-body">
-                        <div class="flex justify-between items-center">
-                            <h3 class="text-2xl font-bold text-neutral-900">Luna</h3>
-                            <span class="badge badge-primary">8 months old</span>
-                        </div>
-                        <p class="mt-2 text-neutral-600">A sweet and gentle soul. Luna is a bit shy at first but purrs
-                            loudly once she's comfortable.</p>
-                    </div>
-                    <div class="card-footer text-right">
-                        <a href="#" class="btn btn-outline">Meet Luna</a>
-                    </div>
-                </div>
-                <div class="card">
-                    <img class="w-full h-56 object-cover" src="https://placekitten.com/410/287" alt="Cat named Simba">
-                    <div class="card-body">
-                        <div class="flex justify-between items-center">
-                            <h3 class="text-2xl font-bold text-neutral-900">Simba</h3>
-                            <span class="badge badge-success">4 years old</span>
-                        </div>
-                        <p class="mt-2 text-neutral-600">A majestic and confident cat who acts like the king of the
-                            house. Very affectionate.</p>
-                    </div>
-                    <div class="card-footer text-right">
-                        <a href="#" class="btn btn-outline">Meet Simba</a>
-                    </div>
-                </div>
+                @foreach ($cats as $cat)
+                    <x-cards.landing-cat :cat="$cat" />
+                @endforeach
             </div>
         </div>
     </section>

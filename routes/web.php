@@ -13,9 +13,9 @@ use App\Http\Controllers\User\RecommendationController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware('guest')->group(function () {
-  Route::get('/register', [AuthController::class, 'showRegisterForm'])->name('register');
+  Route::get('/register', [AuthController::class, 'showRegisterForm'])->name('register.form');
   Route::post('/register', [AuthController::class, 'register'])->name('register');
-  Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
+  Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login.form');
   Route::post('/login', [AuthController::class, 'login'])->name('login');
 });
 

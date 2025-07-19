@@ -21,7 +21,7 @@ class BreedPolicy
      */
     public function view(User $user, Breed $breed): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -29,7 +29,7 @@ class BreedPolicy
      */
     public function create(User $user): bool
     {
-        return false;
+        return $user->role === 'admin';
     }
 
     /**
@@ -37,7 +37,7 @@ class BreedPolicy
      */
     public function update(User $user, Breed $breed): bool
     {
-        return false;
+        return $user->role === 'admin';
     }
 
     /**
@@ -45,7 +45,7 @@ class BreedPolicy
      */
     public function delete(User $user, Breed $breed): bool
     {
-        return false;
+        return $user->role === 'admin';
     }
 
     /**
@@ -53,7 +53,7 @@ class BreedPolicy
      */
     public function restore(User $user, Breed $breed): bool
     {
-        return false;
+        return $user->role === 'admin';
     }
 
     /**
@@ -61,6 +61,6 @@ class BreedPolicy
      */
     public function forceDelete(User $user, Breed $breed): bool
     {
-        return false;
+        return $user->role === 'admin';
     }
 }

@@ -30,7 +30,7 @@
             <div class="card-footer text-center">
                 <p class="text-sm text-neutral-500">
                     Don't have an account?
-                    <a href="{{ route('register') }}" class="font-medium">
+                    <a href="{{ route('register.form') }}" class="font-medium">
                         Sign Up
                     </a>
                 </p>

@@ -28,7 +28,7 @@
             <div class="card-footer text-center">
                 <p class="text-sm text-neutral-500">
                     Already have an account?
-                    <a href="{{ route('login') }}" class="font-medium">
+                    <a href="{{ route('login.form') }}" class="font-medium">
                         Log In
                     </a>
                 </p>

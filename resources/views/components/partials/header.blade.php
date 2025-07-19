@@ -155,7 +155,7 @@
                         </div>
                     </div>
                 @else
-                    <x-ui.button :href="route('login')" variant="primary" size="sm">
+                    <x-ui.button :href="route('login.form')" variant="primary" size="sm">
                         Login
                     </x-ui.button>
                 @endauth

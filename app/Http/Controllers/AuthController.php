@@ -84,6 +84,6 @@ class AuthController extends Controller
         $request->session()->regenerateToken();
 
         toast('You have been successfully logged out.', 'success');
-        return redirect()->route('login');
+        return redirect()->route('login.form');
     }
 }

@@ -13,6 +13,6 @@ class ListingSeeder extends Seeder
      */
     public function run(): void
     {
-        Listing::factory(25)->create();
+        Listing::factory(50)->create();
     }
 }

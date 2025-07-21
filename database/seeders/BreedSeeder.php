@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\Breed;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Http;
 
 class BreedSeeder extends Seeder
 {
@@ -42,12 +43,32 @@ class BreedSeeder extends Seeder
             ],
         ];
 
-        foreach ($breeds as $breed) {
-            $width = 640;
-            $height = 480;
+        if (!env('CAT_API_KEY')) {
+            $this->command->error('CAT_API_KEY tidak ditemukan di file .env. Seeder dihentikan.');
+            return;
+        }
 
+        $this->command->info('Mengambil URL gambar dari TheCatAPI...');
+
+        $response = Http::withHeaders([
+            'x-api-key' => env('CAT_API_KEY')
+        ])->get('https://api.thecatapi.com/v1/images/search', [
+            'limit' => 100,
+            'mime_types' => 'jpg,png',
+            'size' => 'med',
+        ]);
+
+        if ($response->failed()) {
+            $this->command->error('Gagal mengambil data dari TheCatAPI. Seeder dihentikan.');
+            return;
+        }
+
+        $imagePaths = collect($response->json())->pluck('url')->toArray();
+
+
+        foreach ($breeds as $breed) {
             $data = array_merge($breed, [
-                'photo_url' => "https://picsum.photos/{$width}/{$height}?random=" . rand()
+                'photo_url' => fake()->randomElement($imagePaths)
             ]);
 
             Breed::updateOrCreate(['name' => $breed['name']], $data);

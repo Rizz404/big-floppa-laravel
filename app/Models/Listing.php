@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Casts\Attribute;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Concerns\HasUlids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -92,6 +94,13 @@ class Listing extends Model
         }
 
         return $query;
+    }
+
+    public function age(): Attribute
+    {
+        return Attribute::make(
+            get: fn() => Carbon::parse($this->birth_date)->age,
+        );
     }
 
     // Relasi

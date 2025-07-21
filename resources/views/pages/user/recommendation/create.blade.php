@@ -1,7 +1,6 @@
 <x-user-layout title="Find Your Ideal Cat">
 
     <div class="container-narrow py-12 sm:py-16">
-        {{-- Menggunakan komponen 'card' untuk konsistensi --}}
         <div class="card">
             <div class="card-body p-6 sm:p-8">
                 <div class="text-center">
@@ -15,7 +14,12 @@
                     @csrf
 
                     @foreach ($criteria as $criterion)
-                        <x-ui.slider :name="'weights[' . $criterion->id . ']'" :label="$criterion->name" :value="5" />
+                        <div class=" space-y-2">
+                            <x-ui.slider :name="'weights[' . $criterion->id . ']'" :label="$criterion->name" :value="5" />
+                            <p class="text-sm text-neutral-500 px-1">
+                                {{ $criterion->description }}
+                            </p>
+                        </div>
                     @endforeach
 
                     @if ($errors->any())

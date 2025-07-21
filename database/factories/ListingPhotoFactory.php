@@ -11,13 +11,8 @@ class ListingPhotoFactory extends Factory
 
     public function definition(): array
     {
-        $imageServices = [
-            'https://picsum.photos/640/480',
-            'https://loremflickr.com/640/480/cat',
-        ];
-
         return [
-            'path' => $this->faker->randomElement($imageServices),
+            'path' => "https://placekitten.com/400/400",
             'is_primary' => false,
             'caption' => $this->faker->sentence(6),
         ];

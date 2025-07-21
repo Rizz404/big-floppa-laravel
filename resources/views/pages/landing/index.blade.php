@@ -12,11 +12,8 @@
                 Discover loving cats waiting for a forever home. Start your journey to find a new best friend today.
             </p>
             <div class="mt-8 flex justify-center gap-4">
-                <a href="#" class="btn btn-primary btn-lg">
+                <a href="{{ route('cats.index') }}" class="btn btn-primary btn-lg">
                     <i class="fas fa-cat mr-2"></i> View Available Cats
-                </a>
-                <a href="#" class="btn btn-outline btn-lg">
-                    Learn About Adoption
                 </a>
             </div>
         </div>
@@ -65,7 +62,7 @@
             </div>
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
                 @foreach ($breeds as $breed)
-                    <a href="#" class="block group">
+                    <a href="{{ route('breeds.show', $breed) }}" class="block group">
                         <div class="card overflow-hidden">
                             <img class="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
                                 src="{{ $breed->photo_url }}" alt="{{ $breed->name }}">

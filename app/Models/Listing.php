@@ -49,54 +49,46 @@ class Listing extends Model
 
     public function scopeApplyFilters(Builder $query, array $filters): Builder
     {
-        // Debug log
-        if (config('app.debug')) {
-            logger('Applying filters:', $filters);
+        // Filter Pencarian
+        if (!empty($filters['search'])) {
+            $searchTerm = '%' . $filters['search'] . '%';
+            $query->where('title', 'like', $searchTerm);
         }
 
         // Filter Gender
         if (!empty($filters['gender'])) {
             $query->where('gender', $filters['gender']);
-            logger('Applied gender filter:', ['gender' => $filters['gender']]);
         }
 
-        // Filter Kesehatan - untuk checkbox, cek apakah ada dan bernilai true
-        // Filter Kesehatan - Gunakan null coalescing
-        if ($filters['is_vaccinated'] ?? false) {
-            $query->where('is_vaccinated', true);
-            logger('Applied vaccinated filter');
+        // Filter Rentang Harga
+        if (!empty($filters['min_price'])) {
+            $query->where('price', '>=', $filters['min_price']);
+        }
+        if (!empty($filters['max_price'])) {
+            $query->where('price', '<=', $filters['max_price']);
         }
 
-        if ($filters['is_dewormed'] ?? false) {
-            $query->where('is_dewormed', true);
-            logger('Applied dewormed filter');
+        // Filter Status Kesehatan (memeriksa jika '0' atau '1' dikirim)
+        if (isset($filters['vaccinated']) && $filters['vaccinated'] !== '') {
+            $query->where('is_vaccinated', (bool) $filters['vaccinated']);
         }
-
-        // Filter Umur - berdasarkan birth_date
-        if (!empty($filters['age_min']) && is_numeric($filters['age_min'])) {
-            $maxBirthDate = now()->subYears($filters['age_min'])->endOfDay();
-            $query->where('birth_date', '<=', $maxBirthDate);
-            logger('Applied age_min filter:', ['age_min' => $filters['age_min'], 'max_birth_date' => $maxBirthDate]);
-        }
-
-        if (!empty($filters['age_max']) && is_numeric($filters['age_max'])) {
-            $minBirthDate = now()->subYears($filters['age_max'] + 1)->startOfDay();
-            $query->where('birth_date', '>=', $minBirthDate);
-            logger('Applied age_max filter:', ['age_max' => $filters['age_max'], 'min_birth_date' => $minBirthDate]);
+        if (isset($filters['dewormed']) && $filters['dewormed'] !== '') {
+            $query->where('is_dewormed', (bool) $filters['dewormed']);
         }
 
         // Sorting
-        $sortBy = $filters['sort_by'] ?? 'created_at';
-        $sortDirection = $filters['sort_direction'] ?? 'desc';
-
-        // Pastikan kolom yang di-sort ada di database
-        $allowedSortColumns = ['created_at', 'updated_at', 'title'];
-        if (in_array($sortBy, $allowedSortColumns)) {
-            $query->orderBy($sortBy, $sortDirection);
-            logger('Applied sorting:', ['sort_by' => $sortBy, 'sort_direction' => $sortDirection]);
-        } else {
-            $query->orderBy('created_at', 'desc');
-            logger('Applied default sorting');
+        $sortBy = $filters['sort'] ?? 'created_at';
+        switch ($sortBy) {
+            case 'price':
+                $query->orderBy('price', 'asc'); // Harga terendah ke tertinggi
+                break;
+            case 'birth_date':
+                $query->orderBy('birth_date', 'desc'); // Usia termuda dulu
+                break;
+            case 'created_at':
+            default:
+                $query->orderBy('created_at', 'desc'); // Iklan terbaru dulu
+                break;
         }
 
         return $query;

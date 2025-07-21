@@ -5,62 +5,59 @@ namespace App\Http\Controllers;
 use App\Models\Breed;
 use App\Http\Requests\StoreBreedRequest;
 use App\Http\Requests\UpdateBreedRequest;
+use App\Models\Listing;
+use Illuminate\Http\Request;
 
 class BreedController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
-    }
+        $filters = $request->all();
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
+        $countries = Breed::query()
+            ->whereNotNull('origin_country')
+            ->distinct()
+            ->pluck('origin_country')
+            ->sort()
+            ->values();
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(StoreBreedRequest $request)
-    {
-        //
+        $breeds = Breed::query()
+            ->withCount(['listings' => function ($query) {
+                $query->where('status', 'available');
+            }])
+            ->applyFilters($filters)
+            ->paginate(12)
+            ->withQueryString();
+
+        return view('pages.user.breed.index', compact('breeds', 'countries', 'filters'));
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Breed $breed)
+    public function show(Request $request, Breed $breed)
     {
-        //
-    }
+        $filters = $request->all();
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Breed $breed)
-    {
-        //
-    }
+        // * Query dasar untuk listing yang tersedia pada ras ini
+        $baseQuery = Listing::where('breed_id', $breed->id)->where('status', 'available');
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdateBreedRequest $request, Breed $breed)
-    {
-        //
-    }
+        // * Ambil rentang harga SEBELUM filter harga diterapkan
+        $priceRange = (clone $baseQuery)
+            ->selectRaw('MIN(price) as min_price, MAX(price) as max_price')
+            ->first();
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Breed $breed)
-    {
-        //
+        // * Ambil listing dengan semua filter yang diterapkan
+        $cats = (clone $baseQuery)
+            ->with('primaryPhoto')
+            ->applyFilters($filters)
+            ->paginate(10) // * Atau sesuaikan jumlah per halaman
+            ->withQueryString();
+
+        // * Asumsi path view Anda adalah 'pages.user.breed.show'
+        return view('pages.user.breed.show', compact('breed', 'cats', 'filters', 'priceRange'));
     }
 }

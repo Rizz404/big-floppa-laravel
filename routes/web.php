@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\UserAddressController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\BreedController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\LandingController;
 use App\Http\Controllers\ListingController;
@@ -31,6 +32,11 @@ Route::prefix("recommendations")->name('recommendations.')->group(function () {
 
   // * Route dengan parameter dinamis diletakkan anak kontol
   Route::get("/{session}", [RecommendationController::class, 'index'])->name("index");
+});
+
+Route::prefix('breeds')->name('breeds.')->group(function () {
+  Route::get('/', [BreedController::class, 'index'])->name('index');
+  Route::get('/{breed}', [BreedController::class, 'show'])->name('show');
 });
 
 Route::prefix('cats')->name('cats.')->group(function () {

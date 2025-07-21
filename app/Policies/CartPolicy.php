@@ -21,7 +21,7 @@ class CartPolicy
      */
     public function view(User $user, Cart $cart): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -29,7 +29,7 @@ class CartPolicy
      */
     public function create(User $user): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -37,7 +37,7 @@ class CartPolicy
      */
     public function update(User $user, Cart $cart): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -45,7 +45,7 @@ class CartPolicy
      */
     public function delete(User $user, Cart $cart): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -53,7 +53,7 @@ class CartPolicy
      */
     public function restore(User $user, Cart $cart): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -61,6 +61,6 @@ class CartPolicy
      */
     public function forceDelete(User $user, Cart $cart): bool
     {
-        return false;
+        return true;
     }
 }

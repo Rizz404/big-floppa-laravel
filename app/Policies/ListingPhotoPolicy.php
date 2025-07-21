@@ -21,7 +21,7 @@ class ListingPhotoPolicy
      */
     public function view(User $user, ListingPhoto $listingPhoto): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -29,7 +29,7 @@ class ListingPhotoPolicy
      */
     public function create(User $user): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -37,7 +37,7 @@ class ListingPhotoPolicy
      */
     public function update(User $user, ListingPhoto $listingPhoto): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -45,7 +45,7 @@ class ListingPhotoPolicy
      */
     public function delete(User $user, ListingPhoto $listingPhoto): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -53,7 +53,7 @@ class ListingPhotoPolicy
      */
     public function restore(User $user, ListingPhoto $listingPhoto): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -61,6 +61,6 @@ class ListingPhotoPolicy
      */
     public function forceDelete(User $user, ListingPhoto $listingPhoto): bool
     {
-        return false;
+        return true;
     }
 }

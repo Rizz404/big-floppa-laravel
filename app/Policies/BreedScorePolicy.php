@@ -21,7 +21,7 @@ class BreedScorePolicy
      */
     public function view(User $user, BreedScore $breedScore): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -29,7 +29,7 @@ class BreedScorePolicy
      */
     public function create(User $user): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -37,7 +37,7 @@ class BreedScorePolicy
      */
     public function update(User $user, BreedScore $breedScore): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -45,7 +45,7 @@ class BreedScorePolicy
      */
     public function delete(User $user, BreedScore $breedScore): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -53,7 +53,7 @@ class BreedScorePolicy
      */
     public function restore(User $user, BreedScore $breedScore): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -61,6 +61,6 @@ class BreedScorePolicy
      */
     public function forceDelete(User $user, BreedScore $breedScore): bool
     {
-        return false;
+        return true;
     }
 }

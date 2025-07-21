@@ -21,7 +21,7 @@ class EvaluationSessionPolicy
      */
     public function view(User $user, EvaluationSession $evaluationSession): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -29,7 +29,7 @@ class EvaluationSessionPolicy
      */
     public function create(User $user): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -37,7 +37,7 @@ class EvaluationSessionPolicy
      */
     public function update(User $user, EvaluationSession $evaluationSession): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -45,7 +45,7 @@ class EvaluationSessionPolicy
      */
     public function delete(User $user, EvaluationSession $evaluationSession): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -53,7 +53,7 @@ class EvaluationSessionPolicy
      */
     public function restore(User $user, EvaluationSession $evaluationSession): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -61,6 +61,6 @@ class EvaluationSessionPolicy
      */
     public function forceDelete(User $user, EvaluationSession $evaluationSession): bool
     {
-        return false;
+        return true;
     }
 }

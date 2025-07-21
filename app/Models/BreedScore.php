@@ -18,7 +18,7 @@ class BreedScore extends Model
 
     public function breed()
     {
-        return $this->belongsTo(BreedScore::class);
+        return $this->belongsTo(Breed::class);
     }
 
     public function criterion()

@@ -21,7 +21,7 @@ class CriterionPolicy
      */
     public function view(User $user, Criterion $criterion): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -29,7 +29,7 @@ class CriterionPolicy
      */
     public function create(User $user): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -37,7 +37,7 @@ class CriterionPolicy
      */
     public function update(User $user, Criterion $criterion): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -45,7 +45,7 @@ class CriterionPolicy
      */
     public function delete(User $user, Criterion $criterion): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -53,7 +53,7 @@ class CriterionPolicy
      */
     public function restore(User $user, Criterion $criterion): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -61,6 +61,6 @@ class CriterionPolicy
      */
     public function forceDelete(User $user, Criterion $criterion): bool
     {
-        return false;
+        return true;
     }
 }

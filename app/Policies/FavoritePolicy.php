@@ -21,7 +21,7 @@ class FavoritePolicy
      */
     public function view(User $user, Favorite $favorite): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -29,7 +29,7 @@ class FavoritePolicy
      */
     public function create(User $user): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -37,7 +37,7 @@ class FavoritePolicy
      */
     public function update(User $user, Favorite $favorite): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -45,7 +45,7 @@ class FavoritePolicy
      */
     public function delete(User $user, Favorite $favorite): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -53,7 +53,7 @@ class FavoritePolicy
      */
     public function restore(User $user, Favorite $favorite): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -61,6 +61,6 @@ class FavoritePolicy
      */
     public function forceDelete(User $user, Favorite $favorite): bool
     {
-        return false;
+        return true;
     }
 }

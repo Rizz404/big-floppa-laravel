@@ -21,7 +21,7 @@ class UserAddressPolicy
      */
     public function view(User $user, UserAddress $userAddress): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -29,7 +29,7 @@ class UserAddressPolicy
      */
     public function create(User $user): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -53,7 +53,7 @@ class UserAddressPolicy
      */
     public function restore(User $user, UserAddress $userAddress): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -61,6 +61,6 @@ class UserAddressPolicy
      */
     public function forceDelete(User $user, UserAddress $userAddress): bool
     {
-        return false;
+        return true;
     }
 }

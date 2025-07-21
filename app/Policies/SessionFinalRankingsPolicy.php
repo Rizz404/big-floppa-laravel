@@ -21,7 +21,7 @@ class SessionFinalRankingPolicy
      */
     public function view(User $user, SessionFinalRanking $sessionFinalRankings): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -29,7 +29,7 @@ class SessionFinalRankingPolicy
      */
     public function create(User $user): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -37,7 +37,7 @@ class SessionFinalRankingPolicy
      */
     public function update(User $user, SessionFinalRanking $sessionFinalRankings): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -45,7 +45,7 @@ class SessionFinalRankingPolicy
      */
     public function delete(User $user, SessionFinalRanking $sessionFinalRankings): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -53,7 +53,7 @@ class SessionFinalRankingPolicy
      */
     public function restore(User $user, SessionFinalRanking $sessionFinalRankings): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -61,6 +61,6 @@ class SessionFinalRankingPolicy
      */
     public function forceDelete(User $user, SessionFinalRanking $sessionFinalRankings): bool
     {
-        return false;
+        return true;
     }
 }

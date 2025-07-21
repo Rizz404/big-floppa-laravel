@@ -10,20 +10,77 @@
                     </p>
                 </div>
 
+                {{-- Penjelasan Benefit dan Cost --}}
+                <div class="alert alert-info mt-6">
+                    <h3 class="font-semibold text-secondary-700 mb-2">Understanding Benefit vs Cost Criteria</h3>
+                    <div class="grid md:grid-cols-2 gap-4 text-sm">
+                        <div>
+                            <h4 class="font-medium mb-1">
+                                <i class="fas fa-thumbs-up text-success-600 mr-1"></i>
+                                <span class="badge badge-success">Benefit Criteria</span>
+                            </h4>
+                            <p class="text-success-600">
+                                Higher scores (8-10) indicate you want <strong>more</strong> of this trait.
+                                These are positive qualities you desire in your ideal cat.
+                            </p>
+                        </div>
+                        <div>
+                            <h4 class="font-medium mb-1">
+                                <i class="fas fa-thumbs-down text-danger-600 mr-1"></i>
+                                <span class="badge badge-danger">Cost Criteria</span>
+                            </h4>
+                            <p class="text-danger-600">
+                                Higher scores (8-10) indicate you want <strong>less</strong> of this trait.
+                                These represent challenges or drawbacks you want to minimize.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
                 <form action="{{ route('recommendations.store') }}" method="POST" class="mt-8 space-y-8">
                     @csrf
 
                     @foreach ($criteria as $criterion)
-                        <div class=" space-y-2">
+                        <div class="space-y-2">
+                            <div class="flex items-center gap-2 mb-2">
+                                {{-- Badge berdasarkan tipe menggunakan class CSS custom --}}
+                                @if ($criterion->type === 'benefit')
+                                    <span class="badge badge-success">
+                                        <i class="fas fa-plus-circle mr-1"></i>
+                                        Benefit
+                                    </span>
+                                @else
+                                    <span class="badge badge-danger">
+                                        <i class="fas fa-minus-circle mr-1"></i>
+                                        Cost
+                                    </span>
+                                @endif
+
+                                <h3 class="font-medium text-neutral-900">{{ $criterion->name }}</h3>
+                            </div>
+
                             <x-ui.slider :name="'weights[' . $criterion->id . ']'" :label="$criterion->name" :value="5" />
-                            <p class="text-sm text-neutral-500 px-1">
-                                {{ $criterion->description }}
-                            </p>
+
+                            <div class="px-1 space-y-1">
+                                <p class="text-sm text-neutral-600">
+                                    {{ $criterion->description }}
+                                </p>
+
+                                {{-- Scale guide --}}
+                                <div class="form-help flex justify-between mt-1">
+                                    @if ($criterion->type === 'benefit')
+                                        <span>1 = Not important</span>
+                                        <span>10 = Very important</span>
+                                    @else
+                                        <span>1 = Can tolerate</span>
+                                        <span>10 = Want to avoid</span>
+                                    @endif
+                                </div>
+                            </div>
                         </div>
                     @endforeach
 
                     @if ($errors->any())
-                        {{-- Menggunakan komponen 'alert' untuk error --}}
                         <div class="alert alert-danger" role="alert">
                             <strong class="font-bold">Oops! Something went wrong.</strong>
                             <ul class="list-disc list-inside mt-2">
@@ -37,7 +94,7 @@
                     <div class="pt-4">
                         <button type="submit" class="btn btn-primary btn-lg w-full justify-center cursor-pointer">
                             <i class="fas fa-paw mr-2"></i>
-                            Find Recommendation
+                            Find My Perfect Cat
                         </button>
                     </div>
                 </form>

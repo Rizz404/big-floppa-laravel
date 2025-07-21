@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\Listing;
 use App\Models\Order;
 use App\Models\Payment;
 use Illuminate\Http\Request;
@@ -46,6 +47,7 @@ class MidtransWebhookController extends Controller
                 $transactionStatus = $payload['transaction_status'];
                 $fraudStatus = $payload['fraud_status'] ?? null;
 
+                $payment->payment_method = $payload['payment_type'];
                 $payment->status = $transactionStatus;
                 $payment->external_transaction_id = $payload['transaction_id'];
 
@@ -53,6 +55,10 @@ class MidtransWebhookController extends Controller
                     // * Pembayaran berhasil dan dana sudah masuk
                     $order->status = 'paid';
                     $payment->paid_at = now();
+
+                    $listingIds = $order->items()->pluck('listing_id');
+                    // * Jadiin sold
+                    Listing::whereIn('id', $listingIds)->update(['status' => 'sold']);
                 } elseif ($transactionStatus == 'capture' && $fraudStatus == 'accept') {
                     // * Untuk kartu kredit, status capture + accept = berhasil
                     $order->status = 'paid';

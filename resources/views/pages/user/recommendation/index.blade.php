@@ -43,7 +43,8 @@
                                 </p>
                                 <div class="mt-4 text-right">
                                     {{-- * Tombol ini bisa diarahkan ke halaman detail ras atau halaman listing --}}
-                                    <a href="#" class="btn btn-primary btn-sm">
+                                    <a href="{{ route('breeds.show', $ranking->breed) }}"
+                                        class="btn btn-primary btn-sm">
                                         <i class="fas fa-search mr-2"></i>
                                         View Available {{ $ranking->breed->name }}s
                                     </a>

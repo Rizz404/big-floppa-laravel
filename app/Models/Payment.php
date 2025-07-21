@@ -11,6 +11,10 @@ class Payment extends Model
     /** @use HasFactory<\Database\Factories\PaymentFactory> */
     use HasFactory, HasUlids;
 
+    protected $casts = [
+        'paid_at' => 'datetime',
+    ];
+
     public function order()
     {
         return $this->belongsTo(Order::class);

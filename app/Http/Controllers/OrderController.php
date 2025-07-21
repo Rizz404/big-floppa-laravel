@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreOrderRequest;
 use App\Models\CartItem;
+use App\Models\Listing;
 use App\Models\Order;
 use App\Models\Payment;
 use Illuminate\Http\Request;
@@ -30,7 +31,7 @@ class OrderController extends Controller
     {
         // $this->authorize('view', $order);
 
-        $order->load('items.listing.primaryPhoto', 'payment', 'buyer.primaryAddress');
+        $order->load('items.listing.primaryPhoto', 'payment', 'buyer.userPrimaryAddress');
 
         return view('pages.user.order.show', compact('order'));
     }

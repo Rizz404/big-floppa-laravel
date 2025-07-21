@@ -19,7 +19,7 @@ class ListingController extends Controller
         // Build query
         $query = Listing::query()
             ->with('breed', 'primaryPhoto')
-            ->whereIn('status', ['available', 'sold'])
+            ->whereIn('status', ['available'])
             ->applyFilters($filters);
 
         // Debug - hapus setelah selesai debugging
@@ -41,7 +41,7 @@ class ListingController extends Controller
      */
     public function show(Listing $listing)
     {
-        // if (!in_array($listing->status, ['available', 'sold'])) {
+        // if (!in_array($listing->status, ['available'])) {
         //     abort(404);
         // }
         $listing->load(['seller', 'breed', 'photos']);
